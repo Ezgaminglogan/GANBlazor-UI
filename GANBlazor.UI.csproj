@@ -11,7 +11,7 @@
 	  <Authors>GAN</Authors>
 	  <Description>Modern, minimal Blazor UI components inspired by shadcn/ui. Requires Tailwind CSS in the consuming app.</Description>
 	  <PackageTags>blazor;ui;components;tailwind</PackageTags>
-	  <RepositoryUrl>https://github.com/yourname/GANBlazor.UI</RepositoryUrl>
+	  <RepositoryUrl>https://github.com/Ezgaminglogan/GANBlazor-UI</RepositoryUrl>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

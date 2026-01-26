@@ -51,13 +51,28 @@ npm install tailwindcss @tailwindcss/cli
 3. Start the Tailwind CLI build process to scan your files and build CSS:
 
 ```bash
-npx @tailwindcss/cli -i ./wwwroot/css/input.css -o ./wwwroot/css/app.css --watch
+npx @tailwindcss/cli -i ./wwwroot/css/input.css -o ./wwwroot/css/output.css --watch
 ```
 
-4. Add the compiled CSS to your `App.razor` or `_Layout.cshtml`:
+4. Add the compiled CSS to your `App.razor`:
 
-```html
-<link href="css/app.css" rel="stylesheet" />
+```razor
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="css/output.css" />
+    <!-- Or if using static assets: -->
+    <link rel="stylesheet" href="@Assets["output.css"]" />
+    <HeadOutlet @rendermode="InteractiveServer" />
+</head>
+<body>
+    <Routes @rendermode="InteractiveServer" />
+    <script src="_framework/blazor.web.js"></script>
+</body>
+</html>
 ```
 
 ### Step 3: Add Imports
