@@ -660,9 +660,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 📞 Support
 
-- 🐛 [Report Issues](https://github.com/yourname/GANBlazor.UI/issues)
-- 💡 [Request Features](https://github.com/yourname/GANBlazor.UI/issues/new)
-- 📧 Email: support@ganblazor.dev
+- 🐛 [Report Issues](https://github.com/Ezgaminglogan/GANBlazor-UI/issues)
+- 💡 [Request Features](https://github.com/Ezgaminglogan/GANBlazor-UI/issues/new)
+- 📦 [View on NuGet](https://www.nuget.org/packages/GANBlazor.UI)
 
 ---
 

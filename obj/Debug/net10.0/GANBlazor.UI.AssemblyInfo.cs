@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Modern, minimal Blazor UI components inspired by shadcn/ui. Requires Tailwind CSS" +
     " in the consuming app.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("0.1.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.1.0+972e692c05c6438828e07fa8939a54ff3ef5f7ed")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.1.0+099a2d25967a834fd0078278ab1806a944a5a0f4")]
 [assembly: System.Reflection.AssemblyProductAttribute("GANBlazor.UI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GANBlazor.UI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("0.1.0.0")]
