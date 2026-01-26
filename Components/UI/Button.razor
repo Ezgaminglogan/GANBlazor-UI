@@ -1,0 +1,217 @@
+﻿@using Blazor.Heroicons
+@using GANBlazor.UI.Classes.UI
+@using static GANBlazor.UI.Classes.UI.ButtonTypes
+
+
+@if (Wrap)
+{
+    <div class="@WrapperCss">
+        @ButtonBody
+    </div>
+}
+else
+{
+    @ButtonBody
+}
+
+@code {
+    private RenderFragment ButtonBody => __builder =>
+    {
+        <button type="@HtmlType"
+                class="@Css"
+                disabled="@IsActuallyDisabled"
+                @onclick="HandleClick"
+                @attributes="AdditionalAttributes">
+
+            @if (IsLoading)
+            {
+                <span class="inline-flex items-center gap-2">
+                    <span class="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+                          aria-hidden="true"></span>
+                    <span>@(LoadingText ?? "Loading...")</span>
+                </span>
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(LeftHeroicon))
+                {
+                    <span class="-ms-0.5 inline-flex items-center" aria-hidden="true">
+                        <Heroicon Name="@LeftHeroicon" Type="@LeftHeroiconType" class="@IconClassResolved" />
+                    </span>
+                }
+                else if (LeftIcon is not null)
+                {
+                    <span class="-ms-0.5 inline-flex items-center" aria-hidden="true">
+                        @LeftIcon
+                    </span>
+                }
+
+                @if (!IconOnly)
+                {
+                    <span class="inline-flex items-center">@ChildContent</span>
+                }
+
+                if (!string.IsNullOrWhiteSpace(RightHeroicon))
+                {
+                    <span class="-me-0.5 inline-flex items-center" aria-hidden="true">
+                        <Heroicon Name="@RightHeroicon" Type="@RightHeroiconType" class="@IconClassResolved" />
+                    </span>
+                }
+                else if (RightIcon is not null)
+                {
+                    <span class="-me-0.5 inline-flex items-center" aria-hidden="true">
+                        @RightIcon
+                    </span>
+                }
+            }
+        </button>
+    };
+
+    // Layout
+    [Parameter] public bool Wrap { get; set; } = true;
+    [Parameter] public ButtonAlign Align { get; set; } = ButtonAlign.Start;
+    [Parameter] public bool FullWidth { get; set; }
+
+    // Standard
+    [Parameter] public ButtonType Type { get; set; } = ButtonType.Button;
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public EventCallback OnClick { get; set; }
+
+    // Content
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    // shadcn-like icon API
+    [Parameter] public string? LeftHeroicon { get; set; }
+    [Parameter] public HeroiconType LeftHeroiconType { get; set; } = HeroiconType.Outline;
+
+    [Parameter] public string? RightHeroicon { get; set; }
+    [Parameter] public HeroiconType RightHeroiconType { get; set; } = HeroiconType.Outline;
+
+    // still allow custom icon fragments
+    [Parameter] public RenderFragment? LeftIcon { get; set; }
+    [Parameter] public RenderFragment? RightIcon { get; set; }
+
+    // Styling presets
+    [Parameter] public ButtonVariant Variant { get; set; } = ButtonVariant.Default;
+    [Parameter] public ButtonSize Size { get; set; } = ButtonSize.Md;
+
+    // Overrides (THIS is the "editable like shadcn" part)
+    [Parameter] public string? Class { get; set; }          // overrides/extends button classes
+    [Parameter] public string? WrapperClass { get; set; }   // overrides/extends wrapper
+    [Parameter] public string? IconClass { get; set; }      // icon size override
+    [Parameter] public bool IconOnly { get; set; }          // icon-only button (square)
+
+    // Loading
+    [Parameter] public bool IsLoading { get; set; }
+    [Parameter] public string? LoadingText { get; set; }
+
+    // Extra HTML attrs (id, aria-*, data-*)
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private bool IsActuallyDisabled => Disabled || IsLoading;
+
+    private string HtmlType => Type switch
+    {
+        ButtonType.Submit => "submit",
+        ButtonType.Reset => "reset",
+        _ => "button"
+    };
+
+    private string WrapperCss =>
+        string.Join(" ", new[]
+        {
+            "flex",
+            FullWidth ? "w-full" : "",
+            Align switch
+            {
+                ButtonAlign.Start => "justify-start",
+                ButtonAlign.Center => "justify-center",
+                ButtonAlign.End => "justify-end",
+                _ => "justify-start"
+            },
+            WrapperClass ?? ""
+        }.Where(x => !string.IsNullOrWhiteSpace(x)));
+
+    private string Css =>
+        string.Join(" ", new[]
+        {
+            Base(),
+            IconOnly ? IconOnlyCss() : SizeCss(),
+            VariantCss(),
+            FullWidth ? "w-full" : "",
+            Class ?? "" // append LAST so you can override defaults
+        }.Where(x => !string.IsNullOrWhiteSpace(x)));
+
+    private static string Base() =>
+        "inline-flex items-center justify-center gap-2 rounded-xl font-medium select-none " +
+        "cursor-pointer transition-all duration-200 ease-out " +
+        "hover:-translate-y-px active:translate-y-0 active:scale-[0.99] " +
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 " +
+        "disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed " +
+        "motion-reduce:transition-none motion-reduce:hover:transform-none motion-reduce:active:transform-none";
+
+    private string IconOnlyCss() => Size switch
+    {
+        ButtonSize.Sm => "h-9 w-9",
+        ButtonSize.Md => "h-10 w-10",
+        ButtonSize.Lg => "h-11 w-11",
+        _ => "h-10 w-10"
+    };
+
+    private string VariantCss() => Variant switch
+    {
+        ButtonVariant.Default =>
+            "bg-zinc-900 text-white shadow-sm " +
+            "hover:bg-zinc-800 hover:shadow-md " +
+            "active:bg-zinc-900 " +
+            "focus-visible:bg-zinc-800 focus-visible:ring-zinc-400 focus-visible:ring-offset-white",
+
+        ButtonVariant.Outline =>
+            "border border-zinc-200 bg-white text-zinc-900 shadow-sm " +
+            "hover:bg-zinc-50 hover:shadow-md " +
+            "active:bg-zinc-100 " +
+            "focus-visible:bg-zinc-50 focus-visible:ring-zinc-300 focus-visible:ring-offset-white",
+
+        ButtonVariant.Ghost =>
+            "bg-transparent text-zinc-900 " +
+            "hover:bg-zinc-100 " +
+            "active:bg-zinc-200 " +
+            "focus-visible:bg-zinc-100 focus-visible:ring-zinc-300 focus-visible:ring-offset-white",
+
+        ButtonVariant.Danger =>
+            "bg-red-600 text-white shadow-sm " +
+            "hover:bg-red-500 hover:shadow-md " +
+            "active:bg-red-600 " +
+            "focus-visible:bg-red-500 focus-visible:ring-red-300 focus-visible:ring-offset-white",
+
+        _ => "bg-zinc-900 text-white hover:bg-zinc-800 focus-visible:ring-zinc-400"
+    };
+
+    private string SizeCss() => Size switch
+    {
+        ButtonSize.Sm => "h-9 px-3 text-sm",
+        ButtonSize.Md => "h-10 px-4 text-sm",
+        ButtonSize.Lg => "h-11 px-5 text-base",
+        _ => "h-10 px-4 text-sm"
+    };
+
+    private string IconClassResolved => !string.IsNullOrWhiteSpace(IconClass) ? IconClass : Size switch
+    {
+        ButtonSize.Sm => "h-4 w-4",
+        ButtonSize.Md => "h-5 w-5",
+        ButtonSize.Lg => "h-5 w-5",
+        _ => "h-5 w-5"
+    };
+
+    private async Task HandleClick()
+    {
+        if (IsActuallyDisabled) return;
+
+        if (Type == ButtonType.Submit || Type == ButtonType.Reset)
+            return; // let the form handle it
+
+        if (OnClick.HasDelegate)
+            await OnClick.InvokeAsync();
+    }
+}

@@ -1,0 +1,13 @@
+﻿<p class="@Css">@ChildContent</p>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+
+    private string Css =>
+        string.Join(" ", new[]
+        {
+            "text-sm text-red-600",
+            Class ?? ""
+        }.Where(x => !string.IsNullOrWhiteSpace(x)));
+}

@@ -1,0 +1,33 @@
+﻿<div class="@Css">
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <label class="text-sm font-medium text-zinc-900">
+            @Label
+        </label>
+    }
+
+    <div class="mt-2">
+        @ChildContent
+    </div>
+
+    @if (Message is not null)
+    {
+        <div class="mt-2">
+            @Message
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment? Message { get; set; }
+    [Parameter] public string? Class { get; set; }
+
+    private string Css =>
+        string.Join(" ", new[]
+        {
+            "space-y-0",
+            Class ?? ""
+        }.Where(x => !string.IsNullOrWhiteSpace(x)));
+}

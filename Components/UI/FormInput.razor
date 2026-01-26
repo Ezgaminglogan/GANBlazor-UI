@@ -1,0 +1,36 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+@using System.Linq.Expressions
+
+<InputText @bind-Value="Value"
+           class="@Css"
+           @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+    [Parameter] public Expression<Func<string?>>? ValueExpression { get; set; }
+
+    [CascadingParameter] private EditContext? CascadedEditContext { get; set; }
+
+    [Parameter] public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private bool IsInvalid =>
+        CascadedEditContext is not null &&
+        ValueExpression is not null &&
+        CascadedEditContext.GetValidationMessages(FieldIdentifier.Create(ValueExpression)).Any();
+
+    private string Css =>
+        string.Join(" ", new[]
+        {
+            "w-full rounded-xl border bg-white px-3 py-2 text-sm text-zinc-900",
+            "placeholder:text-zinc-400",
+            "shadow-sm",
+            "transition focus:outline-none focus:ring-2 focus:ring-zinc-300 focus:ring-offset-2 focus:ring-offset-white",
+            IsInvalid ? "border-red-300 focus:ring-red-200" : "border-zinc-200",
+            "disabled:cursor-not-allowed disabled:opacity-50",
+            Class ?? ""
+        }.Where(x => !string.IsNullOrWhiteSpace(x)));
+}

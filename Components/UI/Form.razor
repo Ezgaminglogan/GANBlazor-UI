@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+<EditForm EditContext="@EditContext"
+          Model="@Model"
+          OnValidSubmit="@OnValidSubmit"
+          OnInvalidSubmit="@OnInvalidSubmit"
+          class="@Css"
+          @attributes="AdditionalAttributes">
+    @ChildContent
+</EditForm>
+
+@code {
+    [Parameter] public object? Model { get; set; }
+    [Parameter] public EditContext? EditContext { get; set; }
+
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+    [Parameter] public EventCallback<EditContext> OnInvalidSubmit { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string Css =>
+        string.Join(" ", new[]
+        {
+            "space-y-6", // consistent form spacing
+            Class ?? ""
+        }.Where(x => !string.IsNullOrWhiteSpace(x)));
+}
