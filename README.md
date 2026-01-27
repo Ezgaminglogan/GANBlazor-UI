@@ -647,6 +647,57 @@ All components support custom CSS classes via the `Class` parameter, allowing yo
 
 ---
 
+## 📋 Version History
+
+### Version 0.1.2 (Latest)
+
+**Released:** January 27, 2026
+
+**What's New:**
+
+- ✅ Added pre-built CSS bundle (`ganblazor-ui.min.css`) for component styles
+- ✅ Fixed Tailwind CSS styling issues with compiled components
+- ✅ Improved package distribution with bundled styles
+- 📝 Updated documentation with proper CSS setup instructions
+
+**Migration from 0.1.1:**
+Add the component stylesheet to your `App.razor`:
+
+```razor
+<link rel="stylesheet" href="_content/GANBlazor.UI/ganblazor-ui.min.css" />
+```
+
+---
+
+### Version 0.1.1
+
+**Released:** January 27, 2026
+
+**What's New:**
+
+- 🎨 Added package icon (GANBlazor logo)
+- 📦 Improved NuGet package presentation
+
+---
+
+### Version 0.1.0
+
+**Released:** January 26, 2026
+
+**Initial Release:**
+
+- 🔘 Button component with 4 variants (Default, Outline, Ghost, Danger)
+- 📝 Form wrapper component
+- 🏷️ FormField component with label and message support
+- 📥 FormInput component with validation
+- 💬 FormMessage component for error display
+- 🎨 Full Tailwind CSS integration
+- 🎯 Heroicons support for button icons
+- ✨ Loading states and animations
+- ♿ ARIA-compliant and accessible components
+
+---
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
