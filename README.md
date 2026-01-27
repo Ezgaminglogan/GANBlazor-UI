@@ -1265,7 +1265,25 @@ All components support custom CSS classes via the `Class` parameter, allowing yo
 
 ## 📋 Version History
 
-### Version 0.1.5 (Latest)
+### Version 0.1.6 (Latest)
+
+**Released:** January 27, 2026
+
+**🐛 Critical Fix**
+
+**Fixed:**
+
+- ❌ Removed `package.json` and `package-lock.json` from NuGet package
+- ✅ These npm files were incorrectly being copied to consuming projects
+
+**Impact:**
+
+- Projects installing GANBlazor.UI will no longer get unwanted npm files
+- Cleaner project structure in consuming applications
+
+---
+
+### Version 0.1.5
 
 **Released:** January 27, 2026
 

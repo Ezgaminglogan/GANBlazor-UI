@@ -7,7 +7,7 @@
 
 
 	  <PackageId>GANBlazor.UI</PackageId>
-	  <Version>0.1.5</Version>
+	  <Version>0.1.6</Version>
 	  <Authors>GAN</Authors>
 	  <Description>Modern, minimal Blazor UI components inspired by shadcn/ui. Requires Tailwind CSS in the consuming app.</Description>
 	  <PackageTags>blazor;ui;components;tailwind</PackageTags>
@@ -41,6 +41,12 @@
 		<Content Remove="bin\**" />
 		<Content Remove="obj\**" />
 		<Content Remove="wwwroot\css\*.css" />
+		
+		<!-- Exclude npm files -->
+		<None Remove="package.json" />
+		<None Remove="package-lock.json" />
+		<Content Remove="package.json" />
+		<Content Remove="package-lock.json" />
 	</ItemGroup>
 
 </Project>
