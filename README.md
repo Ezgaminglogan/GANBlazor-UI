@@ -794,7 +794,203 @@ Use `<FormMessage>` as a standalone component outside of FormField:
 
 ---
 
-## 📋 Complete Form Example
+## � Putting It All Together: Form + Field + Input + Message
+
+Here's a practical example showing how all form components work together:
+
+### Simple Contact Form Example
+
+```razor
+@page "/contact"
+@using System.ComponentModel.DataAnnotations
+
+<div class="max-w-lg mx-auto p-6">
+    <h2 class="text-2xl font-bold mb-6">Contact Us</h2>
+
+    <Form Model="@contactForm" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+
+        <!-- Name Field -->
+        <FormField Label="Your Name">
+            <FormInput @bind-Value="contactForm.Name"
+                       placeholder="Enter your name"
+                       autocomplete="name" />
+            <Message>
+                <ValidationMessage For="@(() => contactForm.Name)" />
+            </Message>
+        </FormField>
+
+        <!-- Email Field -->
+        <FormField Label="Email Address">
+            <FormInput @bind-Value="contactForm.Email"
+                       type="email"
+                       placeholder="you@example.com"
+                       autocomplete="email" />
+            <Message>
+                <ValidationMessage For="@(() => contactForm.Email)" />
+            </Message>
+        </FormField>
+
+        <!-- Subject Field -->
+        <FormField Label="Subject">
+            <FormInput @bind-Value="contactForm.Subject"
+                       placeholder="What is this about?" />
+            <Message>
+                <ValidationMessage For="@(() => contactForm.Subject)" />
+            </Message>
+        </FormField>
+
+        <!-- Submit Button -->
+        <Button Type="ButtonType.Submit"
+                IsLoading="@isSubmitting"
+                FullWidth="true">
+            Send Message
+        </Button>
+    </Form>
+
+    @if (showSuccess)
+    {
+        <div class="mt-4 p-4 bg-green-50 border border-green-200 rounded-xl">
+            <p class="text-green-800">✓ Message sent successfully!</p>
+        </div>
+    }
+</div>
+
+@code {
+    private ContactFormModel contactForm = new();
+    private bool isSubmitting = false;
+    private bool showSuccess = false;
+
+    private async Task HandleSubmit()
+    {
+        isSubmitting = true;
+        showSuccess = false;
+
+        try
+        {
+            // Simulate API call
+            await Task.Delay(1500);
+
+            // Your API call here
+            // await ContactService.SendMessage(contactForm);
+
+            showSuccess = true;
+            contactForm = new(); // Reset form
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+
+    public class ContactFormModel
+    {
+        [Required(ErrorMessage = "Name is required")]
+        [StringLength(100, ErrorMessage = "Name must be less than 100 characters")]
+        public string? Name { get; set; }
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address")]
+        public string? Email { get; set; }
+
+        [Required(ErrorMessage = "Subject is required")]
+        [StringLength(200, MinimumLength = 5, ErrorMessage = "Subject must be between 5 and 200 characters")]
+        public string? Subject { get; set; }
+    }
+}
+```
+
+### What Happens When User Submits:
+
+1. **User fills fields** → FormInput binds values to model
+2. **User clicks "Send Message"** → Button triggers form submission
+3. **Form validates** → DataAnnotationsValidator checks all fields
+4. **If validation fails:**
+   - FormInput shows red border (automatically detects errors)
+   - Message slot displays validation errors via `<ValidationMessage>`
+   - OnValidSubmit does NOT fire
+5. **If validation passes:**
+   - OnValidSubmit fires
+   - HandleSubmit method executes
+   - Button shows loading state
+   - Success message appears
+
+### Example with Conditional Messages
+
+```razor
+<Form Model="@model" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+
+    <FormField Label="Username">
+        <FormInput @bind-Value="model.Username"
+                   placeholder="Choose a username" />
+        <Message>
+            @if (!string.IsNullOrEmpty(model.Username))
+            {
+                @if (model.Username.Length < 3)
+                {
+                    <span>Username must be at least 3 characters</span>
+                }
+                else if (isUsernameTaken)
+                {
+                    <span>This username is already taken</span>
+                }
+                else
+                {
+                    <span class="text-green-600">✓ Username available</span>
+                }
+            }
+            else
+            {
+                <ValidationMessage For="@(() => model.Username)" />
+            }
+        </Message>
+    </FormField>
+
+    <Button Type="ButtonType.Submit">Create Account</Button>
+</Form>
+
+@code {
+    private bool isUsernameTaken = false;
+
+    // Check username availability as user types
+}
+```
+
+### Field-by-Field Breakdown
+
+```razor
+<!-- 1. FormField: Container with label and structure -->
+<FormField Label="Email Address">
+
+    <!-- 2. FormInput: The actual input with auto-validation styling -->
+    <FormInput @bind-Value="model.Email"
+               type="email"
+               placeholder="you@example.com" />
+
+    <!-- 3. Message: Slot for validation/helper text -->
+    <Message>
+        <ValidationMessage For="@(() => model.Email)" />
+    </Message>
+
+</FormField>
+```
+
+**Visual Layout:**
+
+```
+┌─────────────────────────────────┐
+│ Email Address (Label)           │  ← FormField Label
+├─────────────────────────────────┤
+│ [you@example.com.............]  │  ← FormInput
+├─────────────────────────────────┤
+│ ⚠️ Email is required            │  ← Message slot
+└─────────────────────────────────┘
+```
+
+---
+
+## �📋 Complete Form Example
 
 Here's a complete registration form demonstrating all components working together:
 
