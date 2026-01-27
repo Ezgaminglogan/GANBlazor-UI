@@ -423,7 +423,15 @@ If you need more control, use `EditContext` instead of `Model`:
 
 ### 🏷️ FormField
 
-A container component for form inputs with label and message support.
+A container component that provides consistent structure for form inputs with automatic label and message spacing.
+
+#### Understanding FormField Structure
+
+FormField creates a structured layout with three slots:
+
+1. **Label** - Optional field label (displayed above)
+2. **ChildContent** - Your input component (FormInput, select, etc.)
+3. **Message** - Optional validation or helper text (displayed below)
 
 #### Basic Usage
 
@@ -433,7 +441,17 @@ A container component for form inputs with label and message support.
 </FormField>
 ```
 
-#### With Error Message
+#### When to Use FormField
+
+| Scenario                    | Use FormField? | Why                             |
+| --------------------------- | -------------- | ------------------------------- |
+| Standard input with label   | ✅ Yes         | Automatic spacing and structure |
+| Input with validation       | ✅ Yes         | Easy Message slot for errors    |
+| Checkbox/radio buttons      | ✅ Yes         | Consistent field structure      |
+| Custom input controls       | ✅ Yes         | Works with any content          |
+| Standalone input (no label) | ❌ No          | Use FormInput directly          |
+
+#### With Validation Message
 
 ```razor
 <FormField Label="Password">
@@ -445,6 +463,47 @@ A container component for form inputs with label and message support.
     </Message>
 </FormField>
 ```
+
+#### Without Label (Helper Text Only)
+
+```razor
+<FormField>
+    <FormInput @bind-Value="model.Code" placeholder="Enter code" />
+    <Message>
+        <span class="text-zinc-500">We sent a 6-digit code to your email</span>
+    </Message>
+</FormField>
+```
+
+#### With Custom Content
+
+```razor
+<FormField Label="Profile Picture">
+    <InputFile OnChange="HandleFileSelected" class="..." />
+    <Message>
+        <span class="text-zinc-500">Max file size: 2MB</span>
+    </Message>
+</FormField>
+```
+
+#### Multiple Inputs in One Field
+
+```razor
+<FormField Label="Full Name">
+    <div class="flex gap-2">
+        <FormInput @bind-Value="model.FirstName" placeholder="First" />
+        <FormInput @bind-Value="model.LastName" placeholder="Last" />
+    </div>
+</FormField>
+```
+
+#### Spacing Behavior
+
+FormField automatically applies:
+
+- `mt-2` spacing between label and input
+- `mt-2` spacing between input and message
+- `space-y-0` to prevent extra gaps
 
 #### API Reference
 
@@ -459,7 +518,16 @@ A container component for form inputs with label and message support.
 
 ### 📥 FormInput
 
-A styled text input component with validation support.
+A styled text input component that automatically detects validation errors and adapts its styling.
+
+#### How FormInput Works
+
+FormInput wraps Blazor's `InputText` and:
+
+1. **Auto-detects validation** - Changes border color when field has errors
+2. **Cascades EditContext** - Works automatically inside `<Form>`
+3. **Supports all HTML attributes** - Pass any input attribute through
+4. **Pre-styled** - Tailwind styling included (rounded-xl, focus rings, etc.)
 
 #### Basic Usage
 
@@ -467,13 +535,118 @@ A styled text input component with validation support.
 <FormInput @bind-Value="username" placeholder="Enter username" />
 ```
 
-#### With Attributes
+#### When to Use FormInput
+
+| Input Type      | Use FormInput? | Alternative                           |
+| --------------- | -------------- | ------------------------------------- |
+| Text input      | ✅ Yes         | Standard `InputText`                  |
+| Email           | ✅ Yes         | Add `type="email"`                    |
+| Password        | ✅ Yes         | Add `type="password"`                 |
+| Number          | ✅ Yes         | Add `type="number"`                   |
+| Textarea        | ❌ No          | Use `<textarea>` with custom styling  |
+| Select dropdown | ❌ No          | Use `InputSelect` with custom styling |
+
+#### With Different Input Types
 
 ```razor
+<!-- Email -->
 <FormInput @bind-Value="email"
            type="email"
            placeholder="you@example.com"
            autocomplete="email" />
+
+<!-- Password -->
+<FormInput @bind-Value="password"
+           type="password"
+           placeholder="••••••••"
+           autocomplete="current-password" />
+
+<!-- Number -->
+<FormInput @bind-Value="age"
+           type="number"
+           min="18"
+           max="120" />
+
+<!-- Phone -->
+<FormInput @bind-Value="phone"
+           type="tel"
+           placeholder="+1 (555) 000-0000"
+           pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
+```
+
+#### Validation Error Styling
+
+FormInput automatically changes appearance when validation fails:
+
+```razor
+<Form Model="@model" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+
+    <FormField Label="Email">
+        <!-- Border turns red if validation fails -->
+        <FormInput @bind-Value="model.Email" type="email" />
+        <Message>
+            <ValidationMessage For="@(() => model.Email)" />
+        </Message>
+    </FormField>
+</Form>
+```
+
+**Visual States:**
+
+- ✅ **Valid:** `border-zinc-200` (gray border)
+- ❌ **Invalid:** `border-red-300` + `focus:ring-red-200` (red border)
+
+#### How Validation Detection Works
+
+```razor
+<!-- FormInput checks the cascaded EditContext -->
+<Form Model="@model">  <!-- EditContext cascades down -->
+    <FormInput @bind-Value="model.Email" />  <!-- Automatically detects errors -->
+</Form>
+```
+
+Behind the scenes:
+
+1. Form creates an `EditContext`
+2. EditContext cascades to FormInput
+3. FormInput checks for validation messages
+4. If messages exist for this field → show red border
+
+#### Without Form (Manual Validation)
+
+```razor
+<!-- Manual validation styling -->
+<FormInput @bind-Value="username"
+           Class="@(hasError ? "border-red-500" : "")" />
+```
+
+#### With All HTML Attributes
+
+```razor
+<FormInput @bind-Value="model.Username"
+           type="text"
+           placeholder="Username"
+           minlength="3"
+           maxlength="20"
+           required
+           autocomplete="username"
+           id="username-field"
+           aria-label="Username"
+           disabled="@isProcessing"
+           readonly="@isReadOnly" />
+```
+
+#### Custom Styling
+
+```razor
+<!-- Override default styles -->
+<FormInput @bind-Value="code"
+           Class="font-mono text-lg tracking-widest text-center" />
+
+<!-- Custom focus color -->
+<FormInput @bind-Value="email"
+           Class="focus:ring-blue-500 border-blue-200" />
 ```
 
 #### API Reference
@@ -482,10 +655,15 @@ A styled text input component with validation support.
 | ----------------- | ---------------------------- | ------- | ---------------------- |
 | `Value`           | `string?`                    | `null`  | Input value            |
 | `ValueChanged`    | `EventCallback<string?>`     | -       | Value change callback  |
-| `ValueExpression` | `Expression<Func<string?>>?` | `null`  | For validation         |
+| `ValueExpression` | `Expression<Func<string?>>?` | `null`  | For validation binding |
 | `Class`           | `string?`                    | `null`  | Additional CSS classes |
 
-**Note:** Supports all standard HTML input attributes via `AdditionalAttributes` (type, placeholder, disabled, etc.)
+**Additional Attributes:** All standard HTML input attributes are supported via `AdditionalAttributes`:
+
+- `type`, `placeholder`, `disabled`, `readonly`
+- `minlength`, `maxlength`, `pattern`
+- `autocomplete`, `id`, `name`
+- `aria-*`, `data-*` attributes
 
 ---
 
