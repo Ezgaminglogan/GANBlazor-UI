@@ -491,7 +491,99 @@ A styled text input component with validation support.
 
 ### 💬 FormMessage
 
-A component for displaying error/validation messages.
+A component for displaying error/validation messages with consistent styling.
+
+#### Understanding Message vs FormMessage
+
+**Important:** In GANBlazor.UI, there are TWO ways to show messages:
+
+1. **`Message` parameter** - Used inside `FormField` component
+2. **`FormMessage` component** - Standalone message component
+
+#### Option 1: Using Message Parameter (Recommended)
+
+Use the `Message` parameter when working with `FormField`:
+
+```razor
+<FormField Label="Email">
+    <FormInput @bind-Value="model.Email" type="email" />
+    <Message>
+        <ValidationMessage For="@(() => model.Email)" />
+    </Message>
+</FormField>
+```
+
+**When to use:** Inside FormField for field-specific validation messages.
+
+#### Option 2: Using FormMessage Component
+
+Use `<FormMessage>` as a standalone component outside of FormField:
+
+```razor
+<FormInput @bind-Value="username" />
+<FormMessage>Username is required</FormMessage>
+```
+
+**When to use:**
+
+- Standalone messages outside FormField
+- Custom error displays
+- General form-level messages
+
+#### Practical Examples
+
+**Inside FormField (Most Common):**
+
+```razor
+<FormField Label="Password">
+    <FormInput @bind-Value="model.Password" type="password" />
+    <Message>
+        <ValidationMessage For="@(() => model.Password)" />
+    </Message>
+</FormField>
+```
+
+**Standalone FormMessage:**
+
+```razor
+<!-- Form-level error -->
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <FormMessage>@errorMessage</FormMessage>
+}
+
+<!-- Custom validation message -->
+<FormInput @bind-Value="code" placeholder="Enter code" />
+@if (code?.Length < 6)
+{
+    <FormMessage>Code must be at least 6 characters</FormMessage>
+}
+```
+
+**Multiple Messages:**
+
+```razor
+<FormField Label="Username">
+    <FormInput @bind-Value="model.Username" />
+    <Message>
+        @if (string.IsNullOrEmpty(model.Username))
+        {
+            <span>Username is required</span>
+        }
+        else if (model.Username.Length < 3)
+        {
+            <span>Username must be at least 3 characters</span>
+        }
+    </Message>
+</FormField>
+```
+
+#### Comparison Table
+
+| Approach        | Usage Location     | Best For                  |
+| --------------- | ------------------ | ------------------------- |
+| `<Message>`     | Inside `FormField` | Field-specific validation |
+| `<FormMessage>` | Anywhere           | Standalone error messages |
 
 #### Basic Usage
 
@@ -504,6 +596,14 @@ A component for displaying error/validation messages.
 ```razor
 <FormMessage>
     <ValidationMessage For="@(() => formModel.Email)" />
+</FormMessage>
+```
+
+#### Custom Styling
+
+```razor
+<FormMessage Class="text-blue-600 font-semibold">
+    💡 Tip: Use a strong password with numbers and symbols
 </FormMessage>
 ```
 
