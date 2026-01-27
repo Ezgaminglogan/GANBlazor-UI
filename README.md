@@ -1265,7 +1265,43 @@ All components support custom CSS classes via the `Class` parameter, allowing yo
 
 ## 📋 Version History
 
-### Version 0.1.6 (Latest)
+### Version 0.1.7 (Latest)
+
+**Released:** January 27, 2026
+
+**🎯 Package Cleanup - Final Fix**
+
+**Fixed:**
+
+- ✅ Disabled automatic content file inclusion (`IncludeContentInPack`)
+- ✅ Explicitly controlled package contents
+- ❌ Removed ALL development files from package (npm, node_modules, build artifacts)
+- ✅ Package now contains ONLY essential runtime files
+
+**What's Included:**
+
+- ✅ Compiled component library (`.dll`)
+- ✅ Pre-built CSS (`ganblazor-ui.min.css`)
+- ✅ Documentation (`README.md`)
+- ✅ Package icon (`icon.png`)
+- ✅ Build targets for setup instructions
+
+**What's Excluded:**
+
+- ❌ `package.json` and `package-lock.json`
+- ❌ `node_modules/` directory
+- ❌ Source CSS files
+- ❌ Build artifacts (`bin/`, `obj/`)
+
+**Impact:**
+
+- Clean installation with no unwanted files
+- No more npm dependency warnings
+- Smaller package size
+
+---
+
+### Version 0.1.6
 
 **Released:** January 27, 2026
 

@@ -7,7 +7,7 @@
 
 
 	  <PackageId>GANBlazor.UI</PackageId>
-	  <Version>0.1.6</Version>
+	  <Version>0.1.7</Version>
 	  <Authors>GAN</Authors>
 	  <Description>Modern, minimal Blazor UI components inspired by shadcn/ui. Requires Tailwind CSS in the consuming app.</Description>
 	  <PackageTags>blazor;ui;components;tailwind</PackageTags>
@@ -16,6 +16,10 @@
 	  <PackageIcon>icon.png</PackageIcon>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  
+	  <!-- Control what gets included in package -->
+	  <IncludeBuildOutput>true</IncludeBuildOutput>
+	  <ContentTargetFolders>content</ContentTargetFolders>
   </PropertyGroup>
 
 
@@ -29,6 +33,7 @@
 		<None Include="README.md" Pack="true" PackagePath="" />
 		<None Include="icon.png" Pack="true" PackagePath="" />
 		<None Include="build\GANBlazor.UI.targets" Pack="true" PackagePath="build\" />
+		<Content Include="wwwroot\ganblazor-ui.min.css" Pack="true" PackagePath="staticwebassets\" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -38,15 +43,13 @@
 		<EmbeddedResource Remove="node_modules\**" />
 		<None Remove="node_modules\**" />
 		
-		<Content Remove="bin\**" />
-		<Content Remove="obj\**" />
-		<Content Remove="wwwroot\css\*.css" />
-		
-		<!-- Exclude npm files -->
+		<!-- Exclude npm/build files -->
 		<None Remove="package.json" />
 		<None Remove="package-lock.json" />
-		<Content Remove="package.json" />
-		<Content Remove="package-lock.json" />
+		<None Remove=".gitignore" />
+		<None Remove="bin\**" />
+		<None Remove="obj\**" />
+		<None Remove="wwwroot\css\*.css" />
 	</ItemGroup>
 
 </Project>
