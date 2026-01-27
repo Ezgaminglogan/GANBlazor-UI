@@ -54,7 +54,7 @@ npm install tailwindcss @tailwindcss/cli
 npx @tailwindcss/cli -i ./wwwroot/css/input.css -o ./wwwroot/css/output.css --watch
 ```
 
-4. Add the compiled CSS to your `App.razor`:
+4. Add the CSS files to your `App.razor`:
 
 ```razor
 <!DOCTYPE html>
@@ -63,9 +63,14 @@ npx @tailwindcss/cli -i ./wwwroot/css/input.css -o ./wwwroot/css/output.css --wa
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
+    <!-- Your Tailwind CSS -->
     <link rel="stylesheet" href="css/output.css" />
     <!-- Or if using static assets: -->
     <link rel="stylesheet" href="@Assets["output.css"]" />
+
+    <!-- GANBlazor.UI Component Styles -->
+    <link rel="stylesheet" href="_content/GANBlazor.UI/ganblazor-ui.min.css" />
+
     <HeadOutlet @rendermode="InteractiveServer" />
 </head>
 <body>
@@ -74,6 +79,11 @@ npx @tailwindcss/cli -i ./wwwroot/css/input.css -o ./wwwroot/css/output.css --wa
 </body>
 </html>
 ```
+
+**Important:** Both stylesheets are required:
+
+- `output.css` - Your project's Tailwind styles for your own components
+- `ganblazor-ui.min.css` - Pre-built styles for GANBlazor.UI components
 
 ### Step 3: Add Imports
 
