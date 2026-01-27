@@ -1265,7 +1265,29 @@ All components support custom CSS classes via the `Class` parameter, allowing yo
 
 ## 📋 Version History
 
-### Version 0.1.4 (Latest)
+### Version 0.1.5 (Latest)
+
+**Released:** January 27, 2026
+
+**🐛 Bug Fix Release**
+
+**Fixed:**
+
+- ❌ Removed `node_modules` from NuGet package (caused CS2015 binary file errors)
+- ❌ Excluded build artifacts (`bin/`, `obj/`)
+- ✅ Package now only contains essential files
+
+**What's Included:**
+
+- ✅ Compiled component library (`.dll`)
+- ✅ Pre-built CSS (`ganblazor-ui.min.css`)
+- ✅ Documentation (`README.md`)
+- ✅ Package icon
+- ✅ Build targets for setup instructions
+
+---
+
+### Version 0.1.4
 
 **Released:** January 27, 2026
 

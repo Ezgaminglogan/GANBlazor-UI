@@ -7,7 +7,7 @@
 
 
 	  <PackageId>GANBlazor.UI</PackageId>
-	  <Version>0.1.4</Version>
+	  <Version>0.1.5</Version>
 	  <Authors>GAN</Authors>
 	  <Description>Modern, minimal Blazor UI components inspired by shadcn/ui. Requires Tailwind CSS in the consuming app.</Description>
 	  <PackageTags>blazor;ui;components;tailwind</PackageTags>
@@ -29,6 +29,18 @@
 		<None Include="README.md" Pack="true" PackagePath="" />
 		<None Include="icon.png" Pack="true" PackagePath="" />
 		<None Include="build\GANBlazor.UI.targets" Pack="true" PackagePath="build\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Exclude node_modules and build artifacts from package -->
+		<Content Remove="node_modules\**" />
+		<Compile Remove="node_modules\**" />
+		<EmbeddedResource Remove="node_modules\**" />
+		<None Remove="node_modules\**" />
+		
+		<Content Remove="bin\**" />
+		<Content Remove="obj\**" />
+		<Content Remove="wwwroot\css\*.css" />
 	</ItemGroup>
 
 </Project>
