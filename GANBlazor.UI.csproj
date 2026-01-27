@@ -7,7 +7,7 @@
 
 
 	  <PackageId>GANBlazor.UI</PackageId>
-	  <Version>0.1.1</Version>
+	  <Version>0.1.2</Version>
 	  <Authors>GAN</Authors>
 	  <Description>Modern, minimal Blazor UI components inspired by shadcn/ui. Requires Tailwind CSS in the consuming app.</Description>
 	  <PackageTags>blazor;ui;components;tailwind</PackageTags>
