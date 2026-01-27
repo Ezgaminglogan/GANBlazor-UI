@@ -1,0 +1,23 @@
+<Project>
+  <Target Name="GANBlazorUISetupMessage" AfterTargets="Build">
+    <Message Importance="high" Text="" />
+    <Message Importance="high" Text="  ═══════════════════════════════════════════════════════════════" />
+    <Message Importance="high" Text="                   🎨 GANBlazor.UI Setup Required" />
+    <Message Importance="high" Text="  ═══════════════════════════════════════════════════════════════" />
+    <Message Importance="high" Text="" />
+    <Message Importance="high" Text="  1. Add to _Imports.razor:" />
+    <Message Importance="high" Text="     @using GANBlazor.UI.Components" />
+    <Message Importance="high" Text="     @using GANBlazor.UI.Components.UI" />
+    <Message Importance="high" Text="     @using GANBlazor.UI.Classes.UI" />
+    <Message Importance="high" Text="     @using static GANBlazor.UI.Classes.UI.ButtonTypes" />
+    <Message Importance="high" Text="     @using Blazor.Heroicons" />
+    <Message Importance="high" Text="" />
+    <Message Importance="high" Text="  2. Add to App.razor &lt;head&gt;:" />
+    <Message Importance="high" Text="     &lt;link rel='stylesheet'" />
+    <Message Importance="high" Text="           href='_content/GANBlazor.UI/ganblazor-ui.min.css' /&gt;" />
+    <Message Importance="high" Text="" />
+    <Message Importance="high" Text="  📦 Full docs: https://nuget.org/packages/GANBlazor.UI" />
+    <Message Importance="high" Text="  ═══════════════════════════════════════════════════════════════" />
+    <Message Importance="high" Text="" />
+  </Target>
+</Project>

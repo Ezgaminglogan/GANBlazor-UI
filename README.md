@@ -651,7 +651,23 @@ All components support custom CSS classes via the `Class` parameter, allowing yo
 
 ## 📋 Version History
 
-### Version 0.1.2 (Latest)
+### Version 0.1.3 (Latest)
+
+**Released:** January 27, 2026
+
+**What's New:**
+
+- 📢 Added automatic setup instructions on first build
+- 🎯 Build message displays all required `@using` statements
+- 📝 Shows CSS link setup for `App.razor`
+- ✨ Improved developer onboarding experience
+
+**What You'll See:**
+After installing the package, the first build will show helpful setup instructions with all required imports and CSS links.
+
+---
+
+### Version 0.1.2
 
 **Released:** January 27, 2026
 
