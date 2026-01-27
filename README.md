@@ -255,7 +255,7 @@ GANBlazor.UI integrates with [Blazor.Heroicons](https://github.com/tmcknight/bla
 
 ### 📝 Form
 
-A wrapper component for Blazor's `EditForm` with consistent styling and spacing.
+A wrapper component for Blazor's `EditForm` with consistent styling and spacing. The Form component handles validation and submission events automatically.
 
 #### Basic Usage
 
@@ -280,6 +280,131 @@ A wrapper component for Blazor's `EditForm` with consistent styling and spacing.
     {
         [Required]
         public string? Name { get; set; }
+    }
+}
+```
+
+#### Understanding OnValidSubmit vs OnInvalidSubmit
+
+**OnValidSubmit** - Triggered when the form passes all validation rules:
+
+```razor
+<Form Model="@model" OnValidSubmit="SaveData">
+    <DataAnnotationsValidator />
+    <FormField Label="Username">
+        <FormInput @bind-Value="model.Username" />
+    </FormField>
+    <Button Type="ButtonType.Submit">Save</Button>
+</Form>
+
+@code {
+    private async Task SaveData()
+    {
+        // This only runs if ALL validation passes
+        await ApiService.SaveUser(model);
+        NavigationManager.NavigateTo("/success");
+    }
+}
+```
+
+**OnInvalidSubmit** - Triggered when validation fails (optional):
+
+```razor
+<Form Model="@model"
+      OnValidSubmit="SaveData"
+      OnInvalidSubmit="HandleValidationErrors">
+    <DataAnnotationsValidator />
+    <FormField Label="Email">
+        <FormInput @bind-Value="model.Email" type="email" />
+        <Message>
+            <ValidationMessage For="@(() => model.Email)" />
+        </Message>
+    </FormField>
+    <Button Type="ButtonType.Submit">Submit</Button>
+</Form>
+
+@code {
+    private void HandleValidationErrors(EditContext context)
+    {
+        // Optional: Handle validation failures
+        // Show notification, log errors, etc.
+        Console.WriteLine("Form has validation errors!");
+    }
+}
+```
+
+#### When to Use Each Event
+
+| Event             | Use When...                                                  |
+| ----------------- | ------------------------------------------------------------ |
+| `OnValidSubmit`   | ✅ Always required - Handles successful form submission      |
+| `OnInvalidSubmit` | Optional - Show notifications, analytics, custom error logic |
+
+**Common Pattern:**
+
+```razor
+<Form Model="@model" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+
+    <FormField Label="Full Name">
+        <FormInput @bind-Value="model.FullName" />
+        <Message><ValidationMessage For="@(() => model.FullName)" /></Message>
+    </FormField>
+
+    <FormField Label="Email">
+        <FormInput @bind-Value="model.Email" type="email" />
+        <Message><ValidationMessage For="@(() => model.Email)" /></Message>
+    </FormField>
+
+    <Button Type="ButtonType.Submit" IsLoading="@isSubmitting">
+        Submit
+    </Button>
+</Form>
+
+@code {
+    private FormModel model = new();
+    private bool isSubmitting = false;
+
+    private async Task HandleSubmit()
+    {
+        isSubmitting = true;
+        try
+        {
+            await SaveToDatabase(model);
+            // Success handling
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+}
+```
+
+#### Working with EditContext (Advanced)
+
+If you need more control, use `EditContext` instead of `Model`:
+
+```razor
+<Form EditContext="@editContext" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <!-- Form fields -->
+</Form>
+
+@code {
+    private EditContext? editContext;
+    private FormModel model = new();
+
+    protected override void OnInitialized()
+    {
+        editContext = new(model);
+        // Add custom validation or change tracking
+        editContext.OnFieldChanged += HandleFieldChanged;
+    }
+
+    private void HandleFieldChanged(object? sender, FieldChangedEventArgs e)
+    {
+        // React to field changes
     }
 }
 ```
