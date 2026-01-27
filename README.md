@@ -5,6 +5,8 @@ A modern, minimal Blazor UI component library inspired by **shadcn/ui**. Build b
 [![NuGet](https://img.shields.io/nuget/v/GANBlazor.UI.svg)](https://www.nuget.org/packages/GANBlazor.UI/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+**📢 [View Updates Here](#-version-history)** - Check what's new in the latest version!
+
 ---
 
 ## ✨ Features
