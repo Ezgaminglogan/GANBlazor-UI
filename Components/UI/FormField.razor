@@ -10,10 +10,10 @@
         @ChildContent
     </div>
 
-    @if (Message is not null)
+    @if (MessageSlot is not null)
     {
         <div class="mt-2">
-            @Message
+            @MessageSlot
         </div>
     }
 </div>
@@ -21,7 +21,7 @@
 @code {
     [Parameter] public string? Label { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
-    [Parameter] public RenderFragment? Message { get; set; }
+    [Parameter] public RenderFragment? MessageSlot { get; set; }
     [Parameter] public string? Class { get; set; }
 
     private string Css =>

@@ -316,9 +316,9 @@ A wrapper component for Blazor's `EditForm` with consistent styling and spacing.
     <DataAnnotationsValidator />
     <FormField Label="Email">
         <FormInput @bind-Value="model.Email" type="email" />
-        <Message>
+        <MessageSlot>
             <ValidationMessage For="@(() => model.Email)" />
-        </Message>
+        </MessageSlot>
     </FormField>
     <Button Type="ButtonType.Submit">Submit</Button>
 </Form>
@@ -348,12 +348,12 @@ A wrapper component for Blazor's `EditForm` with consistent styling and spacing.
 
     <FormField Label="Full Name">
         <FormInput @bind-Value="model.FullName" />
-        <Message><ValidationMessage For="@(() => model.FullName)" /></Message>
+        <MessageSlot><ValidationMessage For="@(() => model.FullName)" /></MessageSlot>
     </FormField>
 
     <FormField Label="Email">
         <FormInput @bind-Value="model.Email" type="email" />
-        <Message><ValidationMessage For="@(() => model.Email)" /></Message>
+        <MessageSlot><ValidationMessage For="@(() => model.Email)" /></MessageSlot>
     </FormField>
 
     <Button Type="ButtonType.Submit" IsLoading="@isSubmitting">
@@ -430,16 +430,29 @@ A container component that provides consistent structure for form inputs with au
 FormField creates a structured layout with three slots:
 
 1. **Label** - Optional field label (displayed above)
-2. **ChildContent** - Your input component (FormInput, select, etc.)
-3. **Message** - Optional validation or helper text (displayed below)
+2. **ChildContent** - Your input component (FormInput, select, etc.) - **implicit, no wrapper needed!**
+3. **MessageSlot** - Optional validation or helper text (displayed below)
 
 #### Basic Usage
 
 ```razor
+<!-- ✅ Simple usage - no ChildContent wrapper needed! -->
 <FormField Label="Email Address">
     <FormInput @bind-Value="formModel.Email" placeholder="Enter your email" />
 </FormField>
+
+<!-- ✅ With validation message - still no ChildContent wrapper! -->
+<FormField Label="Email Address">
+    <FormInput @bind-Value="formModel.Email" placeholder="Enter your email" />
+    <MessageSlot>
+        <ValidationMessage For="@(() => formModel.Email)" />
+    </MessageSlot>
+</FormField>
 ```
+
+> **💡 Pro Tip:** Unlike other Blazor components with multiple RenderFragments, FormField uses `MessageSlot` (not `Message`), so `ChildContent` remains implicit. You never need to wrap your content!
+
+````
 
 #### When to Use FormField
 
@@ -458,20 +471,20 @@ FormField creates a structured layout with three slots:
     <FormInput @bind-Value="formModel.Password"
                type="password"
                placeholder="Enter password" />
-    <Message>
+    <MessageSlot>
         <ValidationMessage For="@(() => formModel.Password)" />
-    </Message>
+    </MessageSlot>
 </FormField>
-```
+````
 
 #### Without Label (Helper Text Only)
 
 ```razor
 <FormField>
     <FormInput @bind-Value="model.Code" placeholder="Enter code" />
-    <Message>
+    <MessageSlot>
         <span class="text-zinc-500">We sent a 6-digit code to your email</span>
-    </Message>
+    </MessageSlot>
 </FormField>
 ```
 
@@ -480,9 +493,9 @@ FormField creates a structured layout with three slots:
 ```razor
 <FormField Label="Profile Picture">
     <InputFile OnChange="HandleFileSelected" class="..." />
-    <Message>
+    <MessageSlot>
         <span class="text-zinc-500">Max file size: 2MB</span>
-    </Message>
+    </MessageSlot>
 </FormField>
 ```
 
@@ -507,12 +520,12 @@ FormField automatically applies:
 
 #### API Reference
 
-| Parameter      | Type              | Default | Description                |
-| -------------- | ----------------- | ------- | -------------------------- |
-| `Label`        | `string?`         | `null`  | Field label text           |
-| `ChildContent` | `RenderFragment?` | `null`  | Input component content    |
-| `Message`      | `RenderFragment?` | `null`  | Message/validation content |
-| `Class`        | `string?`         | `null`  | Additional CSS classes     |
+| Parameter      | Type              | Default | Description                                            |
+| -------------- | ----------------- | ------- | ------------------------------------------------------ |
+| `Label`        | `string?`         | `null`  | Field label text                                       |
+| `ChildContent` | `RenderFragment?` | `null`  | Input component content (implicit - no wrapper needed) |
+| `MessageSlot`  | `RenderFragment?` | `null`  | Message/validation content                             |
+| `Class`        | `string?`         | `null`  | Additional CSS classes                                 |
 
 ---
 
@@ -585,9 +598,9 @@ FormInput automatically changes appearance when validation fails:
     <FormField Label="Email">
         <!-- Border turns red if validation fails -->
         <FormInput @bind-Value="model.Email" type="email" />
-        <Message>
+        <MessageSlot>
             <ValidationMessage For="@(() => model.Email)" />
-        </Message>
+        </MessageSlot>
     </FormField>
 </Form>
 ```
@@ -685,9 +698,9 @@ Use the `Message` parameter when working with `FormField`:
 ```razor
 <FormField Label="Email">
     <FormInput @bind-Value="model.Email" type="email" />
-    <Message>
+    <MessageSlot>
         <ValidationMessage For="@(() => model.Email)" />
-    </Message>
+    </MessageSlot>
 </FormField>
 ```
 
@@ -715,9 +728,9 @@ Use `<FormMessage>` as a standalone component outside of FormField:
 ```razor
 <FormField Label="Password">
     <FormInput @bind-Value="model.Password" type="password" />
-    <Message>
+    <MessageSlot>
         <ValidationMessage For="@(() => model.Password)" />
-    </Message>
+    </MessageSlot>
 </FormField>
 ```
 
@@ -743,7 +756,7 @@ Use `<FormMessage>` as a standalone component outside of FormField:
 ```razor
 <FormField Label="Username">
     <FormInput @bind-Value="model.Username" />
-    <Message>
+    <MessageSlot>
         @if (string.IsNullOrEmpty(model.Username))
         {
             <span>Username is required</span>
@@ -752,7 +765,7 @@ Use `<FormMessage>` as a standalone component outside of FormField:
         {
             <span>Username must be at least 3 characters</span>
         }
-    </Message>
+    </MessageSlot>
 </FormField>
 ```
 
@@ -760,7 +773,7 @@ Use `<FormMessage>` as a standalone component outside of FormField:
 
 | Approach        | Usage Location     | Best For                  |
 | --------------- | ------------------ | ------------------------- |
-| `<Message>`     | Inside `FormField` | Field-specific validation |
+| `<MessageSlot>` | Inside `FormField` | Field-specific validation |
 | `<FormMessage>` | Anywhere           | Standalone error messages |
 
 #### Basic Usage
@@ -815,9 +828,9 @@ Here's a practical example showing how all form components work together:
             <FormInput @bind-Value="contactForm.Name"
                        placeholder="Enter your name"
                        autocomplete="name" />
-            <Message>
+            <MessageSlot>
                 <ValidationMessage For="@(() => contactForm.Name)" />
-            </Message>
+            </MessageSlot>
         </FormField>
 
         <!-- Email Field -->
@@ -826,18 +839,18 @@ Here's a practical example showing how all form components work together:
                        type="email"
                        placeholder="you@example.com"
                        autocomplete="email" />
-            <Message>
+            <MessageSlot>
                 <ValidationMessage For="@(() => contactForm.Email)" />
-            </Message>
+            </MessageSlot>
         </FormField>
 
         <!-- Subject Field -->
         <FormField Label="Subject">
             <FormInput @bind-Value="contactForm.Subject"
                        placeholder="What is this about?" />
-            <Message>
+            <MessageSlot>
                 <ValidationMessage For="@(() => contactForm.Subject)" />
-            </Message>
+            </MessageSlot>
         </FormField>
 
         <!-- Submit Button -->
@@ -924,7 +937,7 @@ Here's a practical example showing how all form components work together:
     <FormField Label="Username">
         <FormInput @bind-Value="model.Username"
                    placeholder="Choose a username" />
-        <Message>
+        <MessageSlot>
             @if (!string.IsNullOrEmpty(model.Username))
             {
                 @if (model.Username.Length < 3)
@@ -944,7 +957,7 @@ Here's a practical example showing how all form components work together:
             {
                 <ValidationMessage For="@(() => model.Username)" />
             }
-        </Message>
+        </MessageSlot>
     </FormField>
 
     <Button Type="ButtonType.Submit">Create Account</Button>
@@ -968,13 +981,15 @@ Here's a practical example showing how all form components work together:
                type="email"
                placeholder="you@example.com" />
 
-    <!-- 3. Message: Slot for validation/helper text -->
-    <Message>
+    <!-- 3. MessageSlot: Slot for validation/helper text -->
+    <MessageSlot>
         <ValidationMessage For="@(() => model.Email)" />
-    </Message>
+    </MessageSlot>
 
 </FormField>
 ```
+
+> **🎉 No Wrapper Needed!** Notice how clean this is - you can directly add FormInput without wrapping it in `<ChildContent>` tags!
 
 **Visual Layout:**
 
@@ -1008,9 +1023,9 @@ Here's a complete registration form demonstrating all components working togethe
             <FormInput @bind-Value="model.FullName"
                        placeholder="John Doe"
                        autocomplete="name" />
-            <Message>
+            <MessageSlot>
                 <ValidationMessage For="@(() => model.FullName)" />
-            </Message>
+            </MessageSlot>
         </FormField>
 
         <FormField Label="Email Address">
@@ -1018,9 +1033,9 @@ Here's a complete registration form demonstrating all components working togethe
                        type="email"
                        placeholder="you@example.com"
                        autocomplete="email" />
-            <Message>
+            <MessageSlot>
                 <ValidationMessage For="@(() => model.Email)" />
-            </Message>
+            </MessageSlot>
         </FormField>
 
         <FormField Label="Password">
@@ -1028,9 +1043,9 @@ Here's a complete registration form demonstrating all components working togethe
                        type="password"
                        placeholder="••••••••"
                        autocomplete="new-password" />
-            <Message>
+            <MessageSlot>
                 <ValidationMessage For="@(() => model.Password)" />
-            </Message>
+            </MessageSlot>
         </FormField>
 
         <FormField Label="Confirm Password">
@@ -1038,9 +1053,9 @@ Here's a complete registration form demonstrating all components working togethe
                        type="password"
                        placeholder="••••••••"
                        autocomplete="new-password" />
-            <Message>
+            <MessageSlot>
                 <ValidationMessage For="@(() => model.ConfirmPassword)" />
-            </Message>
+            </MessageSlot>
         </FormField>
 
         <div class="flex gap-3 mt-8">
@@ -1250,7 +1265,52 @@ All components support custom CSS classes via the `Class` parameter, allowing yo
 
 ## 📋 Version History
 
-### Version 0.1.3 (Latest)
+### Version 0.1.4 (Latest)
+
+**Released:** January 27, 2026
+
+**🎉 Major Improvement - Simplified FormField Syntax!**
+
+**Breaking Change:**
+
+- ⚠️ `Message` parameter renamed to `MessageSlot` in FormField component
+- 🎯 **No more `<ChildContent>` wrappers required!**
+- ✨ Much cleaner, more intuitive syntax
+
+**Migration Guide:**
+
+```razor
+<!-- ❌ OLD (0.1.3 and earlier) - Required ChildContent wrapper -->
+<FormField Label="Email">
+    <ChildContent>
+        <FormInput @bind-Value="model.Email" />
+    </ChildContent>
+    <Message>
+        <ValidationMessage For="@(() => model.Email)" />
+    </Message>
+</FormField>
+
+<!-- ✅ NEW (0.1.4) - Clean and simple! -->
+<FormField Label="Email">
+    <FormInput @bind-Value="model.Email" />
+    <MessageSlot>
+        <ValidationMessage For="@(() => model.Email)" />
+    </MessageSlot>
+</FormField>
+```
+
+**What Changed:**
+
+- Renamed `Message` → `MessageSlot` parameter
+- `ChildContent` now remains implicit (no wrapper needed)
+- All examples in README updated to new syntax
+
+**Why This Change:**
+Blazor requires explicit `<ChildContent>` wrappers when a component has a parameter named `Message`. By renaming to `MessageSlot`, we keep `ChildContent` as the only implicit parameter, making the syntax much cleaner!
+
+---
+
+### Version 0.1.3
 
 **Released:** January 27, 2026
 
