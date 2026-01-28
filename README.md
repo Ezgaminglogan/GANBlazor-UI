@@ -140,7 +140,53 @@ A versatile button component with multiple variants, sizes, and icon support.
 <Button Variant="ButtonVariant.Ghost">Ghost Button</Button>
 
 <Button Variant="ButtonVariant.Danger">Danger Button</Button>
+
+<Button Variant="ButtonVariant.Unstyled" Class="bg-blue-600 hover:bg-blue-700 text-white">
+    Custom Button
+</Button>
 ```
+
+#### Custom Styling with Class Parameter
+
+You can override button styles in two ways:
+
+**Option 1: Use `Unstyled` Variant (Recommended)**
+
+The `Unstyled` variant removes all color/background styling, giving you full control:
+
+```razor
+<!-- Fully custom blue button -->
+<Button Variant="ButtonVariant.Unstyled"
+        Class="bg-blue-900 hover:bg-blue-800 text-white shadow-sm">
+    View
+</Button>
+
+<!-- Custom gradient button -->
+<Button Variant="ButtonVariant.Unstyled"
+        Class="bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700">
+    Gradient Button
+</Button>
+```
+
+**Option 2: Use Tailwind's Important Modifier**
+
+Override specific properties of existing variants using `!`:
+
+```razor
+<!-- Override Default variant background -->
+<Button Variant="ButtonVariant.Default"
+        Class="!bg-blue-900 hover:!bg-blue-800">
+    Custom Blue
+</Button>
+
+<!-- Override Outline variant colors -->
+<Button Variant="ButtonVariant.Outline"
+        Class="!border-green-500 !text-green-700 hover:!bg-green-50">
+    Custom Green
+</Button>
+```
+
+> **💡 Tip:** Use `Unstyled` variant when you want complete control over colors. Use `!important` modifiers when you want to keep most variant styling but change specific properties.
 
 #### With Icons (Heroicons)
 
@@ -223,6 +269,35 @@ GANBlazor.UI integrates with [Blazor.Heroicons](https://github.com/tmcknight/bla
 </Button>
 ```
 
+#### Real-World Examples
+
+```razor
+<!-- Action buttons with custom colors -->
+<div class="flex gap-2">
+    <Button Variant="ButtonVariant.Unstyled"
+            Class="bg-blue-900 hover:bg-blue-800 text-white">
+        View Details
+    </Button>
+
+    <Button Variant="ButtonVariant.Danger">
+        Delete
+    </Button>
+</div>
+
+<!-- Status-based buttons -->
+<Button Variant="ButtonVariant.Unstyled"
+        Class="bg-green-600 hover:bg-green-700 text-white"
+        LeftHeroicon="@HeroiconName.Check">
+    Approve
+</Button>
+
+<Button Variant="ButtonVariant.Unstyled"
+        Class="bg-amber-500 hover:bg-amber-600 text-white"
+        LeftHeroicon="@HeroiconName.Clock">
+    Pending
+</Button>
+```
+
 #### Custom Styling
 
 ```razor
@@ -233,23 +308,31 @@ GANBlazor.UI integrates with [Blazor.Heroicons](https://github.com/tmcknight/bla
 
 #### API Reference
 
-| Parameter           | Type            | Default        | Description                                           |
-| ------------------- | --------------- | -------------- | ----------------------------------------------------- |
-| `Variant`           | `ButtonVariant` | `Default`      | Visual style: `Default`, `Outline`, `Ghost`, `Danger` |
-| `Size`              | `ButtonSize`    | `Md`           | Button size: `Sm`, `Md`, `Lg`                         |
-| `Type`              | `ButtonType`    | `Button`       | HTML type: `Button`, `Submit`, `Reset`                |
-| `Disabled`          | `bool`          | `false`        | Disables the button                                   |
-| `IsLoading`         | `bool`          | `false`        | Shows loading spinner                                 |
-| `LoadingText`       | `string?`       | `"Loading..."` | Text shown during loading                             |
-| `LeftHeroicon`      | `string?`       | `null`         | Heroicon name for left icon (use `HeroiconName`)      |
-| `LeftHeroiconType`  | `HeroiconType`  | `Outline`      | Icon style: `Outline`, `Solid`, `Mini`, `Micro`       |
-| `RightHeroicon`     | `string?`       | `null`         | Heroicon name for right icon (use `HeroiconName`)     |
-| `RightHeroiconType` | `HeroiconType`  | `Outline`      | Icon style: `Outline`, `Solid`, `Mini`, `Micro`       |
-| `IconOnly`          | `bool`          | `false`        | Makes button square for icon-only display             |
-| `FullWidth`         | `bool`          | `false`        | Makes button full width                               |
-| `Align`             | `ButtonAlign`   | `Start`        | Alignment: `Start`, `Center`, `End`                   |
-| `Class`             | `string?`       | `null`         | Additional CSS classes                                |
-| `OnClick`           | `EventCallback` | -              | Click event handler                                   |
+| Parameter           | Type            | Default        | Description                                                       |
+| ------------------- | --------------- | -------------- | ----------------------------------------------------------------- |
+| `Variant`           | `ButtonVariant` | `Default`      | Visual style: `Default`, `Outline`, `Ghost`, `Danger`, `Unstyled` |
+| `Size`              | `ButtonSize`    | `Md`           | Button size: `Sm`, `Md`, `Lg`                                     |
+| `Type`              | `ButtonType`    | `Button`       | HTML type: `Button`, `Submit`, `Reset`                            |
+| `Disabled`          | `bool`          | `false`        | Disables the button                                               |
+| `IsLoading`         | `bool`          | `false`        | Shows loading spinner                                             |
+| `LoadingText`       | `string?`       | `"Loading..."` | Text shown during loading                                         |
+| `LeftHeroicon`      | `string?`       | `null`         | Heroicon name for left icon (use `HeroiconName`)                  |
+| `LeftHeroiconType`  | `HeroiconType`  | `Outline`      | Icon style: `Outline`, `Solid`, `Mini`, `Micro`                   |
+| `RightHeroicon`     | `string?`       | `null`         | Heroicon name for right icon (use `HeroiconName`)                 |
+| `RightHeroiconType` | `HeroiconType`  | `Outline`      | Icon style: `Outline`, `Solid`, `Mini`, `Micro`                   |
+| `IconOnly`          | `bool`          | `false`        | Makes button square for icon-only display                         |
+| `FullWidth`         | `bool`          | `false`        | Makes button full width                                           |
+| `Align`             | `ButtonAlign`   | `Start`        | Alignment: `Start`, `Center`, `End`                               |
+| `Class`             | `string?`       | `null`         | Additional/override CSS classes (use with `Unstyled` variant)     |
+| `OnClick`           | `EventCallback` | -              | Click event handler                                               |
+
+**Button Variants:**
+
+- `Default` - Black background with white text
+- `Outline` - White background with border
+- `Ghost` - Transparent background
+- `Danger` - Red background for destructive actions
+- `Unstyled` - No color styling, fully controlled by `Class` parameter
 
 ---
 
@@ -1265,7 +1348,38 @@ All components support custom CSS classes via the `Class` parameter, allowing yo
 
 ## 📋 Version History
 
-### Version 0.1.7 (Latest)
+### Version 0.1.8 (Latest)
+
+**Released:** January 28, 2026
+
+**✨ New Feature - Unstyled Variant & Better Class Override**
+
+**Added:**
+
+- ✅ `ButtonVariant.Unstyled` - New variant with no color styling for full customization
+- ✅ Better `Class` parameter control - Override button styles easily
+- 📝 Documentation for custom button styling patterns
+
+**How to Use:**
+
+```razor
+<!-- Unstyled variant with custom colors -->
+<Button Variant="ButtonVariant.Unstyled"
+        Class="bg-blue-900 hover:bg-blue-800 text-white">
+    Custom Button
+</Button>
+
+<!-- Or use Tailwind important modifier -->
+<Button Class="!bg-blue-900">Override Default</Button>
+```
+
+**Why This Change:**
+
+Previously, the `Class` parameter couldn't override variant colors due to CSS specificity. Now you can use `Unstyled` variant for complete control, or use Tailwind's `!` modifier to override specific properties.
+
+---
+
+### Version 0.1.7
 
 **Released:** January 27, 2026
 
