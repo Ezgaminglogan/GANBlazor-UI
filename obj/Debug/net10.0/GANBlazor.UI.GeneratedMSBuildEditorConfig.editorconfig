@@ -21,3 +21,67 @@ build_property.MSBuildProjectDirectory = C:\Users\Logan\Desktop\Website\ASP\Meet
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/Alert.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxBbGVydC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/Badge.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxCYWRnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/Button.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxCdXR0b24ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/Card.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxDYXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/CardContent.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxDYXJkQ29udGVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/CardFooter.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxDYXJkRm9vdGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/CardHeader.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxDYXJkSGVhZGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/Form.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxGb3JtLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/FormField.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxGb3JtRmllbGQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/FormInput.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxGb3JtSW5wdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/FormMessage.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxGb3JtTWVzc2FnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/Modal.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxNb2RhbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/ModalContent.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxNb2RhbENvbnRlbnQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/ModalFooter.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxNb2RhbEZvb3Rlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/ModalHeader.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxNb2RhbEhlYWRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
