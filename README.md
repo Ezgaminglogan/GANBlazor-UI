@@ -6,7 +6,7 @@ A modern, minimal Blazor UI component library inspired by **shadcn/ui**. Build b
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **📦 Current Version:** 0.2.0  
-**📋 [View Changelog](CHANGELOG.md)** | **📚 [Component Documentation](COMPONENTS.md)**
+**📋 [View Changelog](https://github.com/Ezgaminglogan/GANBlazor-UI/blob/main/CHANGELOG.md)** | **📚 [Component Documentation](https://github.com/Ezgaminglogan/GANBlazor-UI/blob/main/COMPONENTS.md)**
 
 ---
 
@@ -27,6 +27,7 @@ A modern, minimal Blazor UI component library inspired by **shadcn/ui**. Build b
 ### ✅ Available Components (v0.2.0)
 
 **Form & Input:**
+
 - **Button** - Versatile button with 5 variants (Default, Outline, Ghost, Danger, Unstyled)
 - **Form** - Form wrapper with EditContext support
 - **FormField** - Field grouping with label and validation
@@ -34,16 +35,19 @@ A modern, minimal Blazor UI component library inspired by **shadcn/ui**. Build b
 - **FormMessage** - Validation messages
 
 **Layout & Structure:**
+
 - **Card** - Container with shadow and border
 - **CardHeader** - Card header section
 - **CardContent** - Main card content
 - **CardFooter** - Card footer section
 
 **Feedback & Status:**
+
 - **Alert** - Contextual alerts (Success, Warning, Error, Info)
 - **Badge** - Status indicators and labels (7 variants, 3 sizes)
 
 **Overlays:**
+
 - **Modal** - Dialog component with backdrop
 - **ModalHeader** - Modal header section
 - **ModalContent** - Modal content area
@@ -95,7 +99,7 @@ npx @tailwindcss/cli -i ./wwwroot/css/input.css -o ./wwwroot/css/output.css --wa
 <head>
     <!-- Your Tailwind CSS -->
     <link rel="stylesheet" href="css/output.css" />
-    
+
     <!-- GANBlazor.UI Component Styles -->
     <link rel="stylesheet" href="_content/GANBlazor.UI/ganblazor-ui.min.css" />
 </head>
@@ -148,7 +152,7 @@ Add to your `_Imports.razor`:
 
 @code {
     bool isLoading = false;
-    
+
     async Task HandleSubmit()
     {
         isLoading = true;
@@ -215,7 +219,7 @@ Add to your `_Imports.razor`:
 
 @code {
     bool showModal = false;
-    
+
     void HandleConfirm()
     {
         showModal = false;
@@ -272,8 +276,8 @@ Add to your `_Imports.razor`:
 
 ## 📚 Documentation
 
-- **[Component Documentation](COMPONENTS.md)** - Complete API reference with examples
-- **[Changelog](CHANGELOG.md)** - Version history and release notes
+- **[Component Documentation](https://github.com/Ezgaminglogan/GANBlazor-UI/blob/main/COMPONENTS.md)** - Complete API reference with examples
+- **[Changelog](https://github.com/Ezgaminglogan/GANBlazor-UI/blob/main/CHANGELOG.md)** - Version history and release notes
 
 ---
 
@@ -315,7 +319,7 @@ Use the `Class` parameter with Tailwind's important modifier:
 - ✅ **New Documentation Structure** - Separate files for changelog and component docs
 - ✅ **Enhanced Customization** - More variants, sizes, and options
 
-**[View Full Changelog →](CHANGELOG.md)**
+**[View Full Changelog →](https://github.com/Ezgaminglogan/GANBlazor-UI/blob/main/CHANGELOG.md)**
 
 ---
 
@@ -445,8 +449,8 @@ This project is licensed under the MIT License.
 - 🐛 [Report Issues](https://github.com/Ezgaminglogan/GANBlazor-UI/issues)
 - 💡 [Request Features](https://github.com/Ezgaminglogan/GANBlazor-UI/issues/new)
 - 📦 [View on NuGet](https://www.nuget.org/packages/GANBlazor.UI)
-- 📚 [Component Docs](COMPONENTS.md)
-- 📋 [Changelog](CHANGELOG.md)
+- 📚 [Component Docs](https://github.com/Ezgaminglogan/GANBlazor-UI/blob/main/COMPONENTS.md)
+- 📋 [Changelog](https://github.com/Ezgaminglogan/GANBlazor-UI/blob/main/CHANGELOG.md)
 
 ---
 
