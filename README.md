@@ -5,18 +5,51 @@ A modern, minimal Blazor UI component library inspired by **shadcn/ui**. Build b
 [![NuGet](https://img.shields.io/nuget/v/GANBlazor.UI.svg)](https://www.nuget.org/packages/GANBlazor.UI/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**📢 [View Updates Here](#-version-history)** - Check what's new in the latest version!
+**📦 Current Version:** 0.2.0  
+**📋 [View Changelog](CHANGELOG.md)** | **📚 [Component Documentation](COMPONENTS.md)**
 
 ---
 
 ## ✨ Features
 
-- 🎯 **Modern Design** - Clean, minimal UI components with smooth animations
+- 🎯 **15+ Components** - Button, Form, Card, Alert, Badge, Modal, and more
 - 🎨 **Tailwind CSS** - Built with Tailwind utility classes for easy customization
 - ♿ **Accessible** - ARIA-compliant components with keyboard navigation support
 - 🔧 **Flexible** - Customizable variants, sizes, and classes
+- 🎭 **Icons** - Blazor.Heroicons integration for beautiful icons
 - 📦 **Lightweight** - Zero JavaScript dependencies (except Tailwind)
 - 🚀 **Ready to Use** - Drop in and start building immediately
+
+---
+
+## 🎨 Component Overview
+
+### ✅ Available Components (v0.2.0)
+
+**Form & Input:**
+- **Button** - Versatile button with 5 variants (Default, Outline, Ghost, Danger, Unstyled)
+- **Form** - Form wrapper with EditContext support
+- **FormField** - Field grouping with label and validation
+- **FormInput** - Styled input with validation
+- **FormMessage** - Validation messages
+
+**Layout & Structure:**
+- **Card** - Container with shadow and border
+- **CardHeader** - Card header section
+- **CardContent** - Main card content
+- **CardFooter** - Card footer section
+
+**Feedback & Status:**
+- **Alert** - Contextual alerts (Success, Warning, Error, Info)
+- **Badge** - Status indicators and labels (7 variants, 3 sizes)
+
+**Overlays:**
+- **Modal** - Dialog component with backdrop
+- **ModalHeader** - Modal header section
+- **ModalContent** - Modal content area
+- **ModalFooter** - Modal footer with actions
+
+**📚 [View Complete Component Documentation →](COMPONENTS.md)**
 
 ---
 
@@ -36,60 +69,43 @@ Install-Package GANBlazor.UI
 
 ### Step 2: Install Tailwind CSS
 
-GANBlazor.UI requires Tailwind CSS in your project. Follow the [Tailwind CLI installation guide](https://tailwindcss.com/docs/installation/tailwind-cli):
+GANBlazor.UI requires Tailwind CSS v4+ in your project.
 
-1. Install Tailwind CSS and CLI via npm:
+1. Install Tailwind CSS via npm:
 
 ```bash
 npm install tailwindcss @tailwindcss/cli
 ```
 
-2. Create your input CSS file (e.g., `css/input.css`):
+2. Create your input CSS file (e.g., `wwwroot/css/input.css`):
 
 ```css
 @import "tailwindcss";
 ```
 
-3. Start the Tailwind CLI build process to scan your files and build CSS:
+3. Build your CSS:
 
 ```bash
 npx @tailwindcss/cli -i ./wwwroot/css/input.css -o ./wwwroot/css/output.css --watch
 ```
 
-4. Add the CSS files to your `App.razor`:
+4. Add both stylesheets to your `App.razor`:
 
 ```razor
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <base href="/" />
     <!-- Your Tailwind CSS -->
     <link rel="stylesheet" href="css/output.css" />
-    <!-- Or if using static assets: -->
-    <link rel="stylesheet" href="@Assets["output.css"]" />
-
+    
     <!-- GANBlazor.UI Component Styles -->
     <link rel="stylesheet" href="_content/GANBlazor.UI/ganblazor-ui.min.css" />
-
-    <HeadOutlet @rendermode="InteractiveServer" />
 </head>
-<body>
-    <Routes @rendermode="InteractiveServer" />
-    <script src="_framework/blazor.web.js"></script>
-</body>
-</html>
 ```
 
-**Important:** Both stylesheets are required:
-
-- `output.css` - Your project's Tailwind styles for your own components
-- `ganblazor-ui.min.css` - Pre-built styles for GANBlazor.UI components
+**Important:** Both stylesheets are required.
 
 ### Step 3: Add Imports
 
-Add the following to your `_Imports.razor`:
+Add to your `_Imports.razor`:
 
 ```razor
 @using GANBlazor.UI.Components
@@ -101,1467 +117,305 @@ Add the following to your `_Imports.razor`:
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start Examples
 
-Here's a simple example to get you started:
+### Button Component
 
 ```razor
 @page "/example"
 
-<h1>Welcome to GANBlazor.UI</h1>
+<!-- Default variants -->
+<Button Variant="ButtonVariant.Default">Default</Button>
+<Button Variant="ButtonVariant.Outline">Outline</Button>
+<Button Variant="ButtonVariant.Ghost">Ghost</Button>
+<Button Variant="ButtonVariant.Danger">Delete</Button>
 
-<Button Variant="ButtonVariant.Default" OnClick="HandleClick">
-    Click Me
+<!-- Custom styling with Unstyled variant -->
+<Button Variant="ButtonVariant.Unstyled"
+        Class="bg-purple-600 hover:bg-purple-700 text-white">
+    Custom
+</Button>
+
+<!-- With icons -->
+<Button Icon="check" IconType="outline">
+    Save Changes
+</Button>
+
+<!-- Loading state -->
+<Button Loading="@isLoading" OnClick="HandleSubmit">
+    Submit
 </Button>
 
 @code {
-    private void HandleClick()
+    bool isLoading = false;
+    
+    async Task HandleSubmit()
     {
-        // Handle button click
+        isLoading = true;
+        await Task.Delay(2000);
+        isLoading = false;
     }
 }
 ```
 
----
-
-## 📚 Components
-
-### 🔘 Button
-
-A versatile button component with multiple variants, sizes, and icon support.
-
-#### Basic Usage
+### Card Component
 
 ```razor
-<Button>Default Button</Button>
-
-<Button Variant="ButtonVariant.Outline">Outline Button</Button>
-
-<Button Variant="ButtonVariant.Ghost">Ghost Button</Button>
-
-<Button Variant="ButtonVariant.Danger">Danger Button</Button>
-
-<Button Variant="ButtonVariant.Unstyled" Class="bg-blue-600 hover:bg-blue-700 text-white">
-    Custom Button
-</Button>
+<Card>
+    <CardHeader>
+        <h3 class="text-lg font-semibold">Card Title</h3>
+    </CardHeader>
+    <CardContent>
+        <p>This is the card content.</p>
+    </CardContent>
+    <CardFooter>
+        <Button>Action</Button>
+    </CardFooter>
+</Card>
 ```
 
-#### Custom Styling with Class Parameter
-
-You can override button styles in two ways:
-
-**Option 1: Use `Unstyled` Variant (Recommended)**
-
-The `Unstyled` variant removes all color/background styling, giving you full control:
+### Alert Component
 
 ```razor
-<!-- Fully custom blue button -->
-<Button Variant="ButtonVariant.Unstyled"
-        Class="bg-blue-900 hover:bg-blue-800 text-white shadow-sm">
-    View
-</Button>
+<Alert Variant="AlertVariant.Success"
+       Icon="check-circle"
+       Title="Success!"
+       Dismissible="true">
+    Your changes have been saved.
+</Alert>
 
-<!-- Custom gradient button -->
-<Button Variant="ButtonVariant.Unstyled"
-        Class="bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700">
-    Gradient Button
-</Button>
+<Alert Variant="AlertVariant.Error"
+       Icon="exclamation-triangle"
+       Title="Error">
+    Something went wrong.
+</Alert>
 ```
 
-**Option 2: Use Tailwind's Important Modifier**
-
-Override specific properties of existing variants using `!`:
+### Modal Component
 
 ```razor
-<!-- Override Default variant background -->
-<Button Variant="ButtonVariant.Default"
-        Class="!bg-blue-900 hover:!bg-blue-800">
-    Custom Blue
-</Button>
+<Button OnClick="() => showModal = true">Open Modal</Button>
 
-<!-- Override Outline variant colors -->
-<Button Variant="ButtonVariant.Outline"
-        Class="!border-green-500 !text-green-700 hover:!bg-green-50">
-    Custom Green
-</Button>
-```
-
-> **💡 Tip:** Use `Unstyled` variant when you want complete control over colors. Use `!important` modifiers when you want to keep most variant styling but change specific properties.
-
-#### With Icons (Heroicons)
-
-GANBlazor.UI integrates with [Blazor.Heroicons](https://github.com/tmcknight/blazor-heroicons). You can specify icons using the `HeroiconName` enum:
-
-```razor
-<Button LeftHeroicon="@HeroiconName.ArrowLeft">Back</Button>
-
-<Button RightHeroicon="@HeroiconName.ArrowRight">Next</Button>
-
-<Button LeftHeroicon="@HeroiconName.Trash" Variant="ButtonVariant.Danger">Delete</Button>
-```
-
-**Available Icon Types:**
-
-- `HeroiconType.Outline` (default) - Outlined stroke icons
-- `HeroiconType.Solid` - Filled solid icons
-- `HeroiconType.Mini` - 20x20 solid icons
-- `HeroiconType.Micro` - 16x16 solid icons
-
-```razor
-<Button LeftHeroicon="@HeroiconName.Star"
-        LeftHeroiconType="HeroiconType.Solid">
-    Favorite
-</Button>
-```
-
-#### Icon-Only Button
-
-```razor
-<Button IconOnly="true" LeftHeroicon="@HeroiconName.Cog" />
-```
-
-#### Sizes
-
-```razor
-<Button Size="ButtonSize.Sm">Small</Button>
-
-<Button Size="ButtonSize.Md">Medium</Button>
-
-<Button Size="ButtonSize.Lg">Large</Button>
-```
-
-#### Loading State
-
-```razor
-<Button IsLoading="true" LoadingText="Saving...">Save</Button>
-
-<Button IsLoading="@isProcessing" OnClick="ProcessData">
-    Process
-</Button>
+<Modal @bind-IsOpen="showModal" Size="ModalSize.Large">
+    <ModalHeader>
+        <h3 class="text-lg font-semibold">Confirm Action</h3>
+    </ModalHeader>
+    <ModalContent>
+        <p>Are you sure you want to proceed?</p>
+    </ModalContent>
+    <ModalFooter>
+        <Button Variant="ButtonVariant.Ghost" OnClick="() => showModal = false">
+            Cancel
+        </Button>
+        <Button Variant="ButtonVariant.Danger" OnClick="HandleConfirm">
+            Confirm
+        </Button>
+    </ModalFooter>
+</Modal>
 
 @code {
-    private bool isProcessing = false;
-
-    private async Task ProcessData()
+    bool showModal = false;
+    
+    void HandleConfirm()
     {
-        isProcessing = true;
-        await Task.Delay(2000); // Simulate processing
-        isProcessing = false;
+        showModal = false;
+        // Handle action
     }
 }
 ```
 
-#### Full Width & Alignment
+### Form Component
 
 ```razor
-<Button FullWidth="true">Full Width Button</Button>
+<Form Model="@model" OnSubmit="HandleSubmit">
+    <FormField Label="Email" Required="true">
+        <FormInput @bind-Value="model.Email" Type="email" />
+        <MessageSlot>
+            <ValidationMessage For="@(() => model.Email)" />
+        </MessageSlot>
+    </FormField>
 
-<Button FullWidth="true" Align="ButtonAlign.Center">Centered</Button>
+    <FormField Label="Password" Required="true">
+        <FormInput @bind-Value="model.Password" Type="password" />
+        <MessageSlot>
+            <ValidationMessage For="@(() => model.Password)" />
+        </MessageSlot>
+    </FormField>
 
-<Button FullWidth="true" Align="ButtonAlign.End">Right Aligned</Button>
-```
-
-#### Form Submit Button
-
-```razor
-<Button Type="ButtonType.Submit" Variant="ButtonVariant.Default">
-    Submit Form
-</Button>
-```
-
-#### Real-World Examples
-
-```razor
-<!-- Action buttons with custom colors -->
-<div class="flex gap-2">
-    <Button Variant="ButtonVariant.Unstyled"
-            Class="bg-blue-900 hover:bg-blue-800 text-white">
-        View Details
-    </Button>
-
-    <Button Variant="ButtonVariant.Danger">
-        Delete
-    </Button>
-</div>
-
-<!-- Status-based buttons -->
-<Button Variant="ButtonVariant.Unstyled"
-        Class="bg-green-600 hover:bg-green-700 text-white"
-        LeftHeroicon="@HeroiconName.Check">
-    Approve
-</Button>
-
-<Button Variant="ButtonVariant.Unstyled"
-        Class="bg-amber-500 hover:bg-amber-600 text-white"
-        LeftHeroicon="@HeroiconName.Clock">
-    Pending
-</Button>
-```
-
-#### Custom Styling
-
-```razor
-<Button Class="bg-blue-600 hover:bg-blue-700 text-white">
-    Custom Blue Button
-</Button>
-```
-
-#### API Reference
-
-| Parameter           | Type            | Default        | Description                                                       |
-| ------------------- | --------------- | -------------- | ----------------------------------------------------------------- |
-| `Variant`           | `ButtonVariant` | `Default`      | Visual style: `Default`, `Outline`, `Ghost`, `Danger`, `Unstyled` |
-| `Size`              | `ButtonSize`    | `Md`           | Button size: `Sm`, `Md`, `Lg`                                     |
-| `Type`              | `ButtonType`    | `Button`       | HTML type: `Button`, `Submit`, `Reset`                            |
-| `Disabled`          | `bool`          | `false`        | Disables the button                                               |
-| `IsLoading`         | `bool`          | `false`        | Shows loading spinner                                             |
-| `LoadingText`       | `string?`       | `"Loading..."` | Text shown during loading                                         |
-| `LeftHeroicon`      | `string?`       | `null`         | Heroicon name for left icon (use `HeroiconName`)                  |
-| `LeftHeroiconType`  | `HeroiconType`  | `Outline`      | Icon style: `Outline`, `Solid`, `Mini`, `Micro`                   |
-| `RightHeroicon`     | `string?`       | `null`         | Heroicon name for right icon (use `HeroiconName`)                 |
-| `RightHeroiconType` | `HeroiconType`  | `Outline`      | Icon style: `Outline`, `Solid`, `Mini`, `Micro`                   |
-| `IconOnly`          | `bool`          | `false`        | Makes button square for icon-only display                         |
-| `FullWidth`         | `bool`          | `false`        | Makes button full width                                           |
-| `Align`             | `ButtonAlign`   | `Start`        | Alignment: `Start`, `Center`, `End`                               |
-| `Class`             | `string?`       | `null`         | Additional/override CSS classes (use with `Unstyled` variant)     |
-| `OnClick`           | `EventCallback` | -              | Click event handler                                               |
-
-**Button Variants:**
-
-- `Default` - Black background with white text
-- `Outline` - White background with border
-- `Ghost` - Transparent background
-- `Danger` - Red background for destructive actions
-- `Unstyled` - No color styling, fully controlled by `Class` parameter
-
----
-
-### 📝 Form
-
-A wrapper component for Blazor's `EditForm` with consistent styling and spacing. The Form component handles validation and submission events automatically.
-
-#### Basic Usage
-
-```razor
-<Form Model="@formModel" OnValidSubmit="HandleSubmit">
-    <DataAnnotationsValidator />
-
-    <!-- Form fields go here -->
-
-    <Button Type="ButtonType.Submit">Submit</Button>
+    <Button Type="submit">Login</Button>
 </Form>
 
 @code {
-    private MyFormModel formModel = new();
+    LoginModel model = new();
 
-    private void HandleSubmit()
+    void HandleSubmit(EditContext context)
     {
-        // Handle form submission
+        if (context.Validate())
+        {
+            // Process form
+        }
     }
 
-    public class MyFormModel
+    public class LoginModel
     {
         [Required]
-        public string? Name { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        public string Password { get; set; }
     }
 }
-```
-
-#### Understanding OnValidSubmit vs OnInvalidSubmit
-
-**OnValidSubmit** - Triggered when the form passes all validation rules:
-
-```razor
-<Form Model="@model" OnValidSubmit="SaveData">
-    <DataAnnotationsValidator />
-    <FormField Label="Username">
-        <FormInput @bind-Value="model.Username" />
-    </FormField>
-    <Button Type="ButtonType.Submit">Save</Button>
-</Form>
-
-@code {
-    private async Task SaveData()
-    {
-        // This only runs if ALL validation passes
-        await ApiService.SaveUser(model);
-        NavigationManager.NavigateTo("/success");
-    }
-}
-```
-
-**OnInvalidSubmit** - Triggered when validation fails (optional):
-
-```razor
-<Form Model="@model"
-      OnValidSubmit="SaveData"
-      OnInvalidSubmit="HandleValidationErrors">
-    <DataAnnotationsValidator />
-    <FormField Label="Email">
-        <FormInput @bind-Value="model.Email" type="email" />
-        <MessageSlot>
-            <ValidationMessage For="@(() => model.Email)" />
-        </MessageSlot>
-    </FormField>
-    <Button Type="ButtonType.Submit">Submit</Button>
-</Form>
-
-@code {
-    private void HandleValidationErrors(EditContext context)
-    {
-        // Optional: Handle validation failures
-        // Show notification, log errors, etc.
-        Console.WriteLine("Form has validation errors!");
-    }
-}
-```
-
-#### When to Use Each Event
-
-| Event             | Use When...                                                  |
-| ----------------- | ------------------------------------------------------------ |
-| `OnValidSubmit`   | ✅ Always required - Handles successful form submission      |
-| `OnInvalidSubmit` | Optional - Show notifications, analytics, custom error logic |
-
-**Common Pattern:**
-
-```razor
-<Form Model="@model" OnValidSubmit="HandleSubmit">
-    <DataAnnotationsValidator />
-
-    <FormField Label="Full Name">
-        <FormInput @bind-Value="model.FullName" />
-        <MessageSlot><ValidationMessage For="@(() => model.FullName)" /></MessageSlot>
-    </FormField>
-
-    <FormField Label="Email">
-        <FormInput @bind-Value="model.Email" type="email" />
-        <MessageSlot><ValidationMessage For="@(() => model.Email)" /></MessageSlot>
-    </FormField>
-
-    <Button Type="ButtonType.Submit" IsLoading="@isSubmitting">
-        Submit
-    </Button>
-</Form>
-
-@code {
-    private FormModel model = new();
-    private bool isSubmitting = false;
-
-    private async Task HandleSubmit()
-    {
-        isSubmitting = true;
-        try
-        {
-            await SaveToDatabase(model);
-            // Success handling
-        }
-        finally
-        {
-            isSubmitting = false;
-        }
-    }
-}
-```
-
-#### Working with EditContext (Advanced)
-
-If you need more control, use `EditContext` instead of `Model`:
-
-```razor
-<Form EditContext="@editContext" OnValidSubmit="HandleSubmit">
-    <DataAnnotationsValidator />
-    <!-- Form fields -->
-</Form>
-
-@code {
-    private EditContext? editContext;
-    private FormModel model = new();
-
-    protected override void OnInitialized()
-    {
-        editContext = new(model);
-        // Add custom validation or change tracking
-        editContext.OnFieldChanged += HandleFieldChanged;
-    }
-
-    private void HandleFieldChanged(object? sender, FieldChangedEventArgs e)
-    {
-        // React to field changes
-    }
-}
-```
-
-#### API Reference
-
-| Parameter         | Type                         | Default | Description                 |
-| ----------------- | ---------------------------- | ------- | --------------------------- |
-| `Model`           | `object?`                    | `null`  | The form model              |
-| `EditContext`     | `EditContext?`               | `null`  | Optional EditContext        |
-| `OnValidSubmit`   | `EventCallback`              | -       | Called when form is valid   |
-| `OnInvalidSubmit` | `EventCallback<EditContext>` | -       | Called when form is invalid |
-| `Class`           | `string?`                    | `null`  | Additional CSS classes      |
-
----
-
-### 🏷️ FormField
-
-A container component that provides consistent structure for form inputs with automatic label and message spacing.
-
-#### Understanding FormField Structure
-
-FormField creates a structured layout with three slots:
-
-1. **Label** - Optional field label (displayed above)
-2. **ChildContent** - Your input component (FormInput, select, etc.) - **implicit, no wrapper needed!**
-3. **MessageSlot** - Optional validation or helper text (displayed below)
-
-#### Basic Usage
-
-```razor
-<!-- ✅ Simple usage - no ChildContent wrapper needed! -->
-<FormField Label="Email Address">
-    <FormInput @bind-Value="formModel.Email" placeholder="Enter your email" />
-</FormField>
-
-<!-- ✅ With validation message - still no ChildContent wrapper! -->
-<FormField Label="Email Address">
-    <FormInput @bind-Value="formModel.Email" placeholder="Enter your email" />
-    <MessageSlot>
-        <ValidationMessage For="@(() => formModel.Email)" />
-    </MessageSlot>
-</FormField>
-```
-
-> **💡 Pro Tip:** Unlike other Blazor components with multiple RenderFragments, FormField uses `MessageSlot` (not `Message`), so `ChildContent` remains implicit. You never need to wrap your content!
-
-````
-
-#### When to Use FormField
-
-| Scenario                    | Use FormField? | Why                             |
-| --------------------------- | -------------- | ------------------------------- |
-| Standard input with label   | ✅ Yes         | Automatic spacing and structure |
-| Input with validation       | ✅ Yes         | Easy Message slot for errors    |
-| Checkbox/radio buttons      | ✅ Yes         | Consistent field structure      |
-| Custom input controls       | ✅ Yes         | Works with any content          |
-| Standalone input (no label) | ❌ No          | Use FormInput directly          |
-
-#### With Validation Message
-
-```razor
-<FormField Label="Password">
-    <FormInput @bind-Value="formModel.Password"
-               type="password"
-               placeholder="Enter password" />
-    <MessageSlot>
-        <ValidationMessage For="@(() => formModel.Password)" />
-    </MessageSlot>
-</FormField>
-````
-
-#### Without Label (Helper Text Only)
-
-```razor
-<FormField>
-    <FormInput @bind-Value="model.Code" placeholder="Enter code" />
-    <MessageSlot>
-        <span class="text-zinc-500">We sent a 6-digit code to your email</span>
-    </MessageSlot>
-</FormField>
-```
-
-#### With Custom Content
-
-```razor
-<FormField Label="Profile Picture">
-    <InputFile OnChange="HandleFileSelected" class="..." />
-    <MessageSlot>
-        <span class="text-zinc-500">Max file size: 2MB</span>
-    </MessageSlot>
-</FormField>
-```
-
-#### Multiple Inputs in One Field
-
-```razor
-<FormField Label="Full Name">
-    <div class="flex gap-2">
-        <FormInput @bind-Value="model.FirstName" placeholder="First" />
-        <FormInput @bind-Value="model.LastName" placeholder="Last" />
-    </div>
-</FormField>
-```
-
-#### Spacing Behavior
-
-FormField automatically applies:
-
-- `mt-2` spacing between label and input
-- `mt-2` spacing between input and message
-- `space-y-0` to prevent extra gaps
-
-#### API Reference
-
-| Parameter      | Type              | Default | Description                                            |
-| -------------- | ----------------- | ------- | ------------------------------------------------------ |
-| `Label`        | `string?`         | `null`  | Field label text                                       |
-| `ChildContent` | `RenderFragment?` | `null`  | Input component content (implicit - no wrapper needed) |
-| `MessageSlot`  | `RenderFragment?` | `null`  | Message/validation content                             |
-| `Class`        | `string?`         | `null`  | Additional CSS classes                                 |
-
----
-
-### 📥 FormInput
-
-A styled text input component that automatically detects validation errors and adapts its styling.
-
-#### How FormInput Works
-
-FormInput wraps Blazor's `InputText` and:
-
-1. **Auto-detects validation** - Changes border color when field has errors
-2. **Cascades EditContext** - Works automatically inside `<Form>`
-3. **Supports all HTML attributes** - Pass any input attribute through
-4. **Pre-styled** - Tailwind styling included (rounded-xl, focus rings, etc.)
-
-#### Basic Usage
-
-```razor
-<FormInput @bind-Value="username" placeholder="Enter username" />
-```
-
-#### When to Use FormInput
-
-| Input Type      | Use FormInput? | Alternative                           |
-| --------------- | -------------- | ------------------------------------- |
-| Text input      | ✅ Yes         | Standard `InputText`                  |
-| Email           | ✅ Yes         | Add `type="email"`                    |
-| Password        | ✅ Yes         | Add `type="password"`                 |
-| Number          | ✅ Yes         | Add `type="number"`                   |
-| Textarea        | ❌ No          | Use `<textarea>` with custom styling  |
-| Select dropdown | ❌ No          | Use `InputSelect` with custom styling |
-
-#### With Different Input Types
-
-```razor
-<!-- Email -->
-<FormInput @bind-Value="email"
-           type="email"
-           placeholder="you@example.com"
-           autocomplete="email" />
-
-<!-- Password -->
-<FormInput @bind-Value="password"
-           type="password"
-           placeholder="••••••••"
-           autocomplete="current-password" />
-
-<!-- Number -->
-<FormInput @bind-Value="age"
-           type="number"
-           min="18"
-           max="120" />
-
-<!-- Phone -->
-<FormInput @bind-Value="phone"
-           type="tel"
-           placeholder="+1 (555) 000-0000"
-           pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
-```
-
-#### Validation Error Styling
-
-FormInput automatically changes appearance when validation fails:
-
-```razor
-<Form Model="@model" OnValidSubmit="HandleSubmit">
-    <DataAnnotationsValidator />
-
-    <FormField Label="Email">
-        <!-- Border turns red if validation fails -->
-        <FormInput @bind-Value="model.Email" type="email" />
-        <MessageSlot>
-            <ValidationMessage For="@(() => model.Email)" />
-        </MessageSlot>
-    </FormField>
-</Form>
-```
-
-**Visual States:**
-
-- ✅ **Valid:** `border-zinc-200` (gray border)
-- ❌ **Invalid:** `border-red-300` + `focus:ring-red-200` (red border)
-
-#### How Validation Detection Works
-
-```razor
-<!-- FormInput checks the cascaded EditContext -->
-<Form Model="@model">  <!-- EditContext cascades down -->
-    <FormInput @bind-Value="model.Email" />  <!-- Automatically detects errors -->
-</Form>
-```
-
-Behind the scenes:
-
-1. Form creates an `EditContext`
-2. EditContext cascades to FormInput
-3. FormInput checks for validation messages
-4. If messages exist for this field → show red border
-
-#### Without Form (Manual Validation)
-
-```razor
-<!-- Manual validation styling -->
-<FormInput @bind-Value="username"
-           Class="@(hasError ? "border-red-500" : "")" />
-```
-
-#### With All HTML Attributes
-
-```razor
-<FormInput @bind-Value="model.Username"
-           type="text"
-           placeholder="Username"
-           minlength="3"
-           maxlength="20"
-           required
-           autocomplete="username"
-           id="username-field"
-           aria-label="Username"
-           disabled="@isProcessing"
-           readonly="@isReadOnly" />
-```
-
-#### Custom Styling
-
-```razor
-<!-- Override default styles -->
-<FormInput @bind-Value="code"
-           Class="font-mono text-lg tracking-widest text-center" />
-
-<!-- Custom focus color -->
-<FormInput @bind-Value="email"
-           Class="focus:ring-blue-500 border-blue-200" />
-```
-
-#### API Reference
-
-| Parameter         | Type                         | Default | Description            |
-| ----------------- | ---------------------------- | ------- | ---------------------- |
-| `Value`           | `string?`                    | `null`  | Input value            |
-| `ValueChanged`    | `EventCallback<string?>`     | -       | Value change callback  |
-| `ValueExpression` | `Expression<Func<string?>>?` | `null`  | For validation binding |
-| `Class`           | `string?`                    | `null`  | Additional CSS classes |
-
-**Additional Attributes:** All standard HTML input attributes are supported via `AdditionalAttributes`:
-
-- `type`, `placeholder`, `disabled`, `readonly`
-- `minlength`, `maxlength`, `pattern`
-- `autocomplete`, `id`, `name`
-- `aria-*`, `data-*` attributes
-
----
-
-### 💬 FormMessage
-
-A component for displaying error/validation messages with consistent styling.
-
-#### Understanding Message vs FormMessage
-
-**Important:** In GANBlazor.UI, there are TWO ways to show messages:
-
-1. **`Message` parameter** - Used inside `FormField` component
-2. **`FormMessage` component** - Standalone message component
-
-#### Option 1: Using Message Parameter (Recommended)
-
-Use the `Message` parameter when working with `FormField`:
-
-```razor
-<FormField Label="Email">
-    <FormInput @bind-Value="model.Email" type="email" />
-    <MessageSlot>
-        <ValidationMessage For="@(() => model.Email)" />
-    </MessageSlot>
-</FormField>
-```
-
-**When to use:** Inside FormField for field-specific validation messages.
-
-#### Option 2: Using FormMessage Component
-
-Use `<FormMessage>` as a standalone component outside of FormField:
-
-```razor
-<FormInput @bind-Value="username" />
-<FormMessage>Username is required</FormMessage>
-```
-
-**When to use:**
-
-- Standalone messages outside FormField
-- Custom error displays
-- General form-level messages
-
-#### Practical Examples
-
-**Inside FormField (Most Common):**
-
-```razor
-<FormField Label="Password">
-    <FormInput @bind-Value="model.Password" type="password" />
-    <MessageSlot>
-        <ValidationMessage For="@(() => model.Password)" />
-    </MessageSlot>
-</FormField>
-```
-
-**Standalone FormMessage:**
-
-```razor
-<!-- Form-level error -->
-@if (!string.IsNullOrEmpty(errorMessage))
-{
-    <FormMessage>@errorMessage</FormMessage>
-}
-
-<!-- Custom validation message -->
-<FormInput @bind-Value="code" placeholder="Enter code" />
-@if (code?.Length < 6)
-{
-    <FormMessage>Code must be at least 6 characters</FormMessage>
-}
-```
-
-**Multiple Messages:**
-
-```razor
-<FormField Label="Username">
-    <FormInput @bind-Value="model.Username" />
-    <MessageSlot>
-        @if (string.IsNullOrEmpty(model.Username))
-        {
-            <span>Username is required</span>
-        }
-        else if (model.Username.Length < 3)
-        {
-            <span>Username must be at least 3 characters</span>
-        }
-    </MessageSlot>
-</FormField>
-```
-
-#### Comparison Table
-
-| Approach        | Usage Location     | Best For                  |
-| --------------- | ------------------ | ------------------------- |
-| `<MessageSlot>` | Inside `FormField` | Field-specific validation |
-| `<FormMessage>` | Anywhere           | Standalone error messages |
-
-#### Basic Usage
-
-```razor
-<FormMessage>This field is required</FormMessage>
-```
-
-#### With Blazor Validation
-
-```razor
-<FormMessage>
-    <ValidationMessage For="@(() => formModel.Email)" />
-</FormMessage>
-```
-
-#### Custom Styling
-
-```razor
-<FormMessage Class="text-blue-600 font-semibold">
-    💡 Tip: Use a strong password with numbers and symbols
-</FormMessage>
-```
-
-#### API Reference
-
-| Parameter      | Type              | Default | Description            |
-| -------------- | ----------------- | ------- | ---------------------- |
-| `ChildContent` | `RenderFragment?` | `null`  | Message content        |
-| `Class`        | `string?`         | `null`  | Additional CSS classes |
-
----
-
-## � Putting It All Together: Form + Field + Input + Message
-
-Here's a practical example showing how all form components work together:
-
-### Simple Contact Form Example
-
-```razor
-@page "/contact"
-@using System.ComponentModel.DataAnnotations
-
-<div class="max-w-lg mx-auto p-6">
-    <h2 class="text-2xl font-bold mb-6">Contact Us</h2>
-
-    <Form Model="@contactForm" OnValidSubmit="HandleSubmit">
-        <DataAnnotationsValidator />
-
-        <!-- Name Field -->
-        <FormField Label="Your Name">
-            <FormInput @bind-Value="contactForm.Name"
-                       placeholder="Enter your name"
-                       autocomplete="name" />
-            <MessageSlot>
-                <ValidationMessage For="@(() => contactForm.Name)" />
-            </MessageSlot>
-        </FormField>
-
-        <!-- Email Field -->
-        <FormField Label="Email Address">
-            <FormInput @bind-Value="contactForm.Email"
-                       type="email"
-                       placeholder="you@example.com"
-                       autocomplete="email" />
-            <MessageSlot>
-                <ValidationMessage For="@(() => contactForm.Email)" />
-            </MessageSlot>
-        </FormField>
-
-        <!-- Subject Field -->
-        <FormField Label="Subject">
-            <FormInput @bind-Value="contactForm.Subject"
-                       placeholder="What is this about?" />
-            <MessageSlot>
-                <ValidationMessage For="@(() => contactForm.Subject)" />
-            </MessageSlot>
-        </FormField>
-
-        <!-- Submit Button -->
-        <Button Type="ButtonType.Submit"
-                IsLoading="@isSubmitting"
-                FullWidth="true">
-            Send Message
-        </Button>
-    </Form>
-
-    @if (showSuccess)
-    {
-        <div class="mt-4 p-4 bg-green-50 border border-green-200 rounded-xl">
-            <p class="text-green-800">✓ Message sent successfully!</p>
-        </div>
-    }
-</div>
-
-@code {
-    private ContactFormModel contactForm = new();
-    private bool isSubmitting = false;
-    private bool showSuccess = false;
-
-    private async Task HandleSubmit()
-    {
-        isSubmitting = true;
-        showSuccess = false;
-
-        try
-        {
-            // Simulate API call
-            await Task.Delay(1500);
-
-            // Your API call here
-            // await ContactService.SendMessage(contactForm);
-
-            showSuccess = true;
-            contactForm = new(); // Reset form
-        }
-        finally
-        {
-            isSubmitting = false;
-        }
-    }
-
-    public class ContactFormModel
-    {
-        [Required(ErrorMessage = "Name is required")]
-        [StringLength(100, ErrorMessage = "Name must be less than 100 characters")]
-        public string? Name { get; set; }
-
-        [Required(ErrorMessage = "Email is required")]
-        [EmailAddress(ErrorMessage = "Please enter a valid email address")]
-        public string? Email { get; set; }
-
-        [Required(ErrorMessage = "Subject is required")]
-        [StringLength(200, MinimumLength = 5, ErrorMessage = "Subject must be between 5 and 200 characters")]
-        public string? Subject { get; set; }
-    }
-}
-```
-
-### What Happens When User Submits:
-
-1. **User fills fields** → FormInput binds values to model
-2. **User clicks "Send Message"** → Button triggers form submission
-3. **Form validates** → DataAnnotationsValidator checks all fields
-4. **If validation fails:**
-   - FormInput shows red border (automatically detects errors)
-   - Message slot displays validation errors via `<ValidationMessage>`
-   - OnValidSubmit does NOT fire
-5. **If validation passes:**
-   - OnValidSubmit fires
-   - HandleSubmit method executes
-   - Button shows loading state
-   - Success message appears
-
-### Example with Conditional Messages
-
-```razor
-<Form Model="@model" OnValidSubmit="HandleSubmit">
-    <DataAnnotationsValidator />
-
-    <FormField Label="Username">
-        <FormInput @bind-Value="model.Username"
-                   placeholder="Choose a username" />
-        <MessageSlot>
-            @if (!string.IsNullOrEmpty(model.Username))
-            {
-                @if (model.Username.Length < 3)
-                {
-                    <span>Username must be at least 3 characters</span>
-                }
-                else if (isUsernameTaken)
-                {
-                    <span>This username is already taken</span>
-                }
-                else
-                {
-                    <span class="text-green-600">✓ Username available</span>
-                }
-            }
-            else
-            {
-                <ValidationMessage For="@(() => model.Username)" />
-            }
-        </MessageSlot>
-    </FormField>
-
-    <Button Type="ButtonType.Submit">Create Account</Button>
-</Form>
-
-@code {
-    private bool isUsernameTaken = false;
-
-    // Check username availability as user types
-}
-```
-
-### Field-by-Field Breakdown
-
-```razor
-<!-- 1. FormField: Container with label and structure -->
-<FormField Label="Email Address">
-
-    <!-- 2. FormInput: The actual input with auto-validation styling -->
-    <FormInput @bind-Value="model.Email"
-               type="email"
-               placeholder="you@example.com" />
-
-    <!-- 3. MessageSlot: Slot for validation/helper text -->
-    <MessageSlot>
-        <ValidationMessage For="@(() => model.Email)" />
-    </MessageSlot>
-
-</FormField>
-```
-
-> **🎉 No Wrapper Needed!** Notice how clean this is - you can directly add FormInput without wrapping it in `<ChildContent>` tags!
-
-**Visual Layout:**
-
-```
-┌─────────────────────────────────┐
-│ Email Address (Label)           │  ← FormField Label
-├─────────────────────────────────┤
-│ [you@example.com.............]  │  ← FormInput
-├─────────────────────────────────┤
-│ ⚠️ Email is required            │  ← Message slot
-└─────────────────────────────────┘
 ```
 
 ---
 
-## �📋 Complete Form Example
+## 📚 Documentation
 
-Here's a complete registration form demonstrating all components working together:
-
-```razor
-@page "/register"
-@using System.ComponentModel.DataAnnotations
-
-<div class="max-w-md mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-6">Create Account</h1>
-
-    <Form Model="@model" OnValidSubmit="HandleRegistration">
-        <DataAnnotationsValidator />
-
-        <FormField Label="Full Name">
-            <FormInput @bind-Value="model.FullName"
-                       placeholder="John Doe"
-                       autocomplete="name" />
-            <MessageSlot>
-                <ValidationMessage For="@(() => model.FullName)" />
-            </MessageSlot>
-        </FormField>
-
-        <FormField Label="Email Address">
-            <FormInput @bind-Value="model.Email"
-                       type="email"
-                       placeholder="you@example.com"
-                       autocomplete="email" />
-            <MessageSlot>
-                <ValidationMessage For="@(() => model.Email)" />
-            </MessageSlot>
-        </FormField>
-
-        <FormField Label="Password">
-            <FormInput @bind-Value="model.Password"
-                       type="password"
-                       placeholder="••••••••"
-                       autocomplete="new-password" />
-            <MessageSlot>
-                <ValidationMessage For="@(() => model.Password)" />
-            </MessageSlot>
-        </FormField>
-
-        <FormField Label="Confirm Password">
-            <FormInput @bind-Value="model.ConfirmPassword"
-                       type="password"
-                       placeholder="••••••••"
-                       autocomplete="new-password" />
-            <MessageSlot>
-                <ValidationMessage For="@(() => model.ConfirmPassword)" />
-            </MessageSlot>
-        </FormField>
-
-        <div class="flex gap-3 mt-8">
-            <Button Type="ButtonType.Submit"
-                    FullWidth="true"
-                    IsLoading="@isSubmitting">
-                Create Account
-            </Button>
-
-            <Button Variant="ButtonVariant.Outline"
-                    FullWidth="true"
-                    OnClick="Cancel">
-                Cancel
-            </Button>
-        </div>
-    </Form>
-</div>
-
-@code {
-    private RegistrationModel model = new();
-    private bool isSubmitting = false;
-
-    private async Task HandleRegistration()
-    {
-        isSubmitting = true;
-
-        // Simulate API call
-        await Task.Delay(2000);
-
-        // Handle registration logic here
-        Console.WriteLine($"Registering: {model.Email}");
-
-        isSubmitting = false;
-    }
-
-    private void Cancel()
-    {
-        // Navigate away or clear form
-    }
-
-    public class RegistrationModel
-    {
-        [Required(ErrorMessage = "Full name is required")]
-        [StringLength(100, ErrorMessage = "Name must be less than 100 characters")]
-        public string? FullName { get; set; }
-
-        [Required(ErrorMessage = "Email is required")]
-        [EmailAddress(ErrorMessage = "Invalid email address")]
-        public string? Email { get; set; }
-
-        [Required(ErrorMessage = "Password is required")]
-        [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be at least 8 characters")]
-        public string? Password { get; set; }
-
-        [Required(ErrorMessage = "Please confirm your password")]
-        [Compare(nameof(Password), ErrorMessage = "Passwords do not match")]
-        public string? ConfirmPassword { get; set; }
-    }
-}
-```
+- **[Component Documentation](COMPONENTS.md)** - Complete API reference with examples
+- **[Changelog](CHANGELOG.md)** - Version history and release notes
 
 ---
 
 ## 🎨 Customization
 
-All components support custom CSS classes via the `Class` parameter, allowing you to override or extend default styles:
+### Using the Unstyled Variant
+
+For complete style control, use the `Unstyled` variant:
 
 ```razor
-<!-- Override background color -->
-<Button Class="bg-purple-600 hover:bg-purple-700">
-    Custom Purple
+<Button Variant="ButtonVariant.Unstyled"
+        Class="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-4 py-2 rounded-lg">
+    Gradient Button
 </Button>
+```
 
-<!-- Add custom spacing -->
-<Form Class="space-y-8 p-6 bg-gray-50 rounded-lg">
-    <!-- Form content -->
-</Form>
+### Overriding Component Styles
 
-<!-- Custom input styling -->
-<FormInput Class="border-blue-300 focus:ring-blue-500" />
+Use the `Class` parameter with Tailwind's important modifier:
+
+```razor
+<Card Class="!bg-gradient-to-br from-blue-50 to-indigo-50">
+    <CardContent>Custom background</CardContent>
+</Card>
+
+<Alert Variant="AlertVariant.Info" Class="!border-2 !border-blue-500">
+    Custom border
+</Alert>
 ```
 
 ---
 
-## 🛠️ Advanced Examples
+## 🎯 What's New in v0.2.0
 
-### Multi-Step Form with Progress
+**Major Component Library Expansion!**
+
+- ✅ **4 New Component Families** - Card, Alert, Badge, Modal
+- ✅ **10 New Components Total** - CardHeader, CardContent, CardFooter, ModalHeader, ModalContent, ModalFooter, and more
+- ✅ **New Documentation Structure** - Separate files for changelog and component docs
+- ✅ **Enhanced Customization** - More variants, sizes, and options
+
+**[View Full Changelog →](CHANGELOG.md)**
+
+---
+
+## 🌟 Example: Complete Dashboard Page
 
 ```razor
-<div class="max-w-2xl mx-auto p-6">
-    <div class="mb-8">
-        <div class="flex justify-between mb-2">
-            @for (int i = 1; i <= 3; i++)
-            {
-                <div class="@(currentStep >= i ? "text-zinc-900 font-medium" : "text-zinc-400")">
-                    Step @i
+@page "/dashboard"
+
+<div class="container mx-auto p-6 space-y-6">
+    <!-- Welcome Alert -->
+    <Alert Variant="AlertVariant.Success"
+           Icon="check-circle"
+           Title="Welcome back!"
+           Dismissible="true">
+        You have 3 new notifications.
+    </Alert>
+
+    <!-- Stats Cards -->
+    <div class="grid md:grid-cols-3 gap-4">
+        <Card>
+            <CardHeader>
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold">Total Users</h3>
+                    <Badge Variant="BadgeVariant.Success">+12%</Badge>
                 </div>
-            }
-        </div>
-        <div class="h-2 bg-zinc-200 rounded-full">
-            <div class="h-full bg-zinc-900 rounded-full transition-all duration-300"
-                 style="width: @((currentStep / 3.0 * 100))%"></div>
-        </div>
+            </CardHeader>
+            <CardContent>
+                <p class="text-3xl font-bold">1,234</p>
+            </CardContent>
+        </Card>
+
+        <Card>
+            <CardHeader>
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold">Revenue</h3>
+                    <Badge Variant="BadgeVariant.Primary">+8%</Badge>
+                </div>
+            </CardHeader>
+            <CardContent>
+                <p class="text-3xl font-bold">$45,231</p>
+            </CardContent>
+        </Card>
+
+        <Card>
+            <CardHeader>
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold">Active Projects</h3>
+                    <Badge Variant="BadgeVariant.Warning">3</Badge>
+                </div>
+            </CardHeader>
+            <CardContent>
+                <p class="text-3xl font-bold">12</p>
+            </CardContent>
+        </Card>
     </div>
 
-    @if (currentStep == 1)
-    {
-        <Form Model="@model" OnValidSubmit="NextStep">
-            <FormField Label="Personal Information">
-                <FormInput @bind-Value="model.Name" placeholder="Full Name" />
-            </FormField>
-
-            <Button Type="ButtonType.Submit" RightHeroicon="arrow-right">
-                Continue
+    <!-- Action Card -->
+    <Card>
+        <CardHeader>
+            <h3 class="text-lg font-semibold">Recent Activity</h3>
+        </CardHeader>
+        <CardContent>
+            <div class="space-y-2">
+                <div class="flex justify-between items-center">
+                    <span>New user registration</span>
+                    <Badge Variant="BadgeVariant.Info" Size="BadgeSize.Small">2m ago</Badge>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span>Payment received</span>
+                    <Badge Variant="BadgeVariant.Success" Size="BadgeSize.Small">1h ago</Badge>
+                </div>
+            </div>
+        </CardContent>
+        <CardFooter>
+            <Button OnClick="() => showDetailsModal = true">
+                View All Activity
             </Button>
-        </Form>
-    }
-    else if (currentStep == 2)
-    {
-        <Form Model="@model" OnValidSubmit="NextStep">
-            <FormField Label="Contact Details">
-                <FormInput @bind-Value="model.Email" type="email" placeholder="Email" />
-            </FormField>
-
-            <div class="flex gap-3">
-                <Button Variant="ButtonVariant.Outline"
-                        LeftHeroicon="@HeroiconName.ArrowLeft"
-                        OnClick="PreviousStep">
-                    Back
-                </Button>
-                <Button Type="ButtonType.Submit" RightHeroicon="@HeroiconName.ArrowRight">
-                    Continue
-                </Button>
-            </div>
-        </Form>
-    }
-    else
-    {
-        <div class="text-center">
-            <h2 class="text-xl font-bold mb-4">Review & Submit</h2>
-            <p class="mb-6">Name: @model.Name</p>
-            <p class="mb-6">Email: @model.Email</p>
-
-            <div class="flex gap-3">
-                <Button Variant="ButtonVariant.Outline" OnClick="PreviousStep">
-                    Back
-                </Button>
-                <Button OnClick="Submit" IsLoading="@isSubmitting">
-                    Submit
-                </Button>
-            </div>
-        </div>
-    }
+        </CardFooter>
+    </Card>
 </div>
+
+<!-- Details Modal -->
+<Modal @bind-IsOpen="showDetailsModal" Size="ModalSize.Large">
+    <ModalHeader>
+        <h3 class="text-lg font-semibold">Activity Details</h3>
+    </ModalHeader>
+    <ModalContent>
+        <p>Detailed activity information goes here...</p>
+    </ModalContent>
+    <ModalFooter>
+        <Button Variant="ButtonVariant.Ghost" OnClick="() => showDetailsModal = false">
+            Close
+        </Button>
+    </ModalFooter>
+</Modal>
 
 @code {
-    private int currentStep = 1;
-    private bool isSubmitting = false;
-    private FormModel model = new();
-
-    private void NextStep() => currentStep++;
-    private void PreviousStep() => currentStep--;
-
-    private async Task Submit()
-    {
-        isSubmitting = true;
-        await Task.Delay(2000);
-        isSubmitting = false;
-    }
-
-    private class FormModel
-    {
-        public string? Name { get; set; }
-        public string? Email { get; set; }
-    }
+    bool showDetailsModal = false;
 }
 ```
-
-### Action Bar with Mixed Buttons
-
-```razor
-<div class="flex items-center justify-between p-4 bg-white border-t">
-    <div class="flex gap-2">
-        <Button Variant="ButtonVariant.Ghost"
-                LeftHeroicon="@HeroiconName.DocumentDuplicate">
-            Duplicate
-        </Button>
-        <Button Variant="ButtonVariant.Ghost"
-                LeftHeroicon="@HeroiconName.ArchiveBox">
-            Archive
-        </Button>
-    </div>
-
-    <div class="flex gap-2">
-        <Button Variant="ButtonVariant.Danger"
-                LeftHeroicon="@HeroiconName.Trash">
-            Delete
-        </Button>
-        <Button LeftHeroicon="@HeroiconName.Check">
-            Save Changes
-        </Button>
-    </div>
-</div>
-```
-
----
-
-## 📋 Version History
-
-### Version 0.1.8 (Latest)
-
-**Released:** January 28, 2026
-
-**✨ New Feature - Unstyled Variant & Better Class Override**
-
-**Added:**
-
-- ✅ `ButtonVariant.Unstyled` - New variant with no color styling for full customization
-- ✅ Better `Class` parameter control - Override button styles easily
-- 📝 Documentation for custom button styling patterns
-
-**How to Use:**
-
-```razor
-<!-- Unstyled variant with custom colors -->
-<Button Variant="ButtonVariant.Unstyled"
-        Class="bg-blue-900 hover:bg-blue-800 text-white">
-    Custom Button
-</Button>
-
-<!-- Or use Tailwind important modifier -->
-<Button Class="!bg-blue-900">Override Default</Button>
-```
-
-**Why This Change:**
-
-Previously, the `Class` parameter couldn't override variant colors due to CSS specificity. Now you can use `Unstyled` variant for complete control, or use Tailwind's `!` modifier to override specific properties.
-
----
-
-### Version 0.1.7
-
-**Released:** January 27, 2026
-
-**🎯 Package Cleanup - Final Fix**
-
-**Fixed:**
-
-- ✅ Disabled automatic content file inclusion (`IncludeContentInPack`)
-- ✅ Explicitly controlled package contents
-- ❌ Removed ALL development files from package (npm, node_modules, build artifacts)
-- ✅ Package now contains ONLY essential runtime files
-
-**What's Included:**
-
-- ✅ Compiled component library (`.dll`)
-- ✅ Pre-built CSS (`ganblazor-ui.min.css`)
-- ✅ Documentation (`README.md`)
-- ✅ Package icon (`icon.png`)
-- ✅ Build targets for setup instructions
-
-**What's Excluded:**
-
-- ❌ `package.json` and `package-lock.json`
-- ❌ `node_modules/` directory
-- ❌ Source CSS files
-- ❌ Build artifacts (`bin/`, `obj/`)
-
-**Impact:**
-
-- Clean installation with no unwanted files
-- No more npm dependency warnings
-- Smaller package size
-
----
-
-### Version 0.1.6
-
-**Released:** January 27, 2026
-
-**🐛 Critical Fix**
-
-**Fixed:**
-
-- ❌ Removed `package.json` and `package-lock.json` from NuGet package
-- ✅ These npm files were incorrectly being copied to consuming projects
-
-**Impact:**
-
-- Projects installing GANBlazor.UI will no longer get unwanted npm files
-- Cleaner project structure in consuming applications
-
----
-
-### Version 0.1.5
-
-**Released:** January 27, 2026
-
-**🐛 Bug Fix Release**
-
-**Fixed:**
-
-- ❌ Removed `node_modules` from NuGet package (caused CS2015 binary file errors)
-- ❌ Excluded build artifacts (`bin/`, `obj/`)
-- ✅ Package now only contains essential files
-
-**What's Included:**
-
-- ✅ Compiled component library (`.dll`)
-- ✅ Pre-built CSS (`ganblazor-ui.min.css`)
-- ✅ Documentation (`README.md`)
-- ✅ Package icon
-- ✅ Build targets for setup instructions
-
----
-
-### Version 0.1.4
-
-**Released:** January 27, 2026
-
-**🎉 Major Improvement - Simplified FormField Syntax!**
-
-**Breaking Change:**
-
-- ⚠️ `Message` parameter renamed to `MessageSlot` in FormField component
-- 🎯 **No more `<ChildContent>` wrappers required!**
-- ✨ Much cleaner, more intuitive syntax
-
-**Migration Guide:**
-
-```razor
-<!-- ❌ OLD (0.1.3 and earlier) - Required ChildContent wrapper -->
-<FormField Label="Email">
-    <ChildContent>
-        <FormInput @bind-Value="model.Email" />
-    </ChildContent>
-    <Message>
-        <ValidationMessage For="@(() => model.Email)" />
-    </Message>
-</FormField>
-
-<!-- ✅ NEW (0.1.4) - Clean and simple! -->
-<FormField Label="Email">
-    <FormInput @bind-Value="model.Email" />
-    <MessageSlot>
-        <ValidationMessage For="@(() => model.Email)" />
-    </MessageSlot>
-</FormField>
-```
-
-**What Changed:**
-
-- Renamed `Message` → `MessageSlot` parameter
-- `ChildContent` now remains implicit (no wrapper needed)
-- All examples in README updated to new syntax
-
-**Why This Change:**
-Blazor requires explicit `<ChildContent>` wrappers when a component has a parameter named `Message`. By renaming to `MessageSlot`, we keep `ChildContent` as the only implicit parameter, making the syntax much cleaner!
-
----
-
-### Version 0.1.3
-
-**Released:** January 27, 2026
-
-**What's New:**
-
-- 📢 Added automatic setup instructions on first build
-- 🎯 Build message displays all required `@using` statements
-- 📝 Shows CSS link setup for `App.razor`
-- ✨ Improved developer onboarding experience
-
-**What You'll See:**
-After installing the package, the first build will show helpful setup instructions with all required imports and CSS links.
-
----
-
-### Version 0.1.2
-
-**Released:** January 27, 2026
-
-**What's New:**
-
-- ✅ Added pre-built CSS bundle (`ganblazor-ui.min.css`) for component styles
-- ✅ Fixed Tailwind CSS styling issues with compiled components
-- ✅ Improved package distribution with bundled styles
-- 📝 Updated documentation with proper CSS setup instructions
-
-**Migration from 0.1.1:**
-Add the component stylesheet to your `App.razor`:
-
-```razor
-<link rel="stylesheet" href="_content/GANBlazor.UI/ganblazor-ui.min.css" />
-```
-
----
-
-### Version 0.1.1
-
-**Released:** January 27, 2026
-
-**What's New:**
-
-- 🎨 Added package icon (GANBlazor logo)
-- 📦 Improved NuGet package presentation
-
----
-
-### Version 0.1.0
-
-**Released:** January 26, 2026
-
-**Initial Release:**
-
-- 🔘 Button component with 4 variants (Default, Outline, Ghost, Danger)
-- 📝 Form wrapper component
-- 🏷️ FormField component with label and message support
-- 📥 FormInput component with validation
-- 💬 FormMessage component for error display
-- 🎨 Full Tailwind CSS integration
-- 🎯 Heroicons support for button icons
-- ✨ Loading states and animations
-- ♿ ARIA-compliant and accessible components
 
 ---
 
@@ -1573,7 +427,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License.
 
 ---
 
@@ -1591,6 +445,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - 🐛 [Report Issues](https://github.com/Ezgaminglogan/GANBlazor-UI/issues)
 - 💡 [Request Features](https://github.com/Ezgaminglogan/GANBlazor-UI/issues/new)
 - 📦 [View on NuGet](https://www.nuget.org/packages/GANBlazor.UI)
+- 📚 [Component Docs](COMPONENTS.md)
+- 📋 [Changelog](CHANGELOG.md)
 
 ---
 

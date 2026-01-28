@@ -21,27 +21,3 @@ build_property.MSBuildProjectDirectory = C:\Users\Logan\Desktop\Website\ASP\Meet
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
-
-[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/Button.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxCdXR0b24ucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/Form.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxGb3JtLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/FormField.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxGb3JtRmllbGQucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/FormInput.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxGb3JtSW5wdXQucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/FormMessage.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxGb3JtTWVzc2FnZS5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/_Imports.razor]
-build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 

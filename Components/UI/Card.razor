@@ -1,0 +1,18 @@
+@* Card Container Component *@
+<div class="@Css">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public bool Hover { get; set; } = true;
+
+    private string Css =>
+        string.Join(" ", new[]
+        {
+            "rounded-xl border border-zinc-200 bg-white shadow-sm",
+            Hover ? "transition-shadow duration-200 hover:shadow-md" : "",
+            Class ?? ""
+        }.Where(x => !string.IsNullOrWhiteSpace(x)));
+}

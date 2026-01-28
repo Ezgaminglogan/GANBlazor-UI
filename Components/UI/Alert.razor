@@ -1,0 +1,79 @@
+@using GANBlazor.UI.Classes.UI
+
+<div class="@Css" role="alert">
+    <div class="flex items-start gap-3">
+        @if (!string.IsNullOrWhiteSpace(Icon))
+        {
+            <span class="shrink-0" aria-hidden="true">
+                <Heroicon Name="@Icon" Type="@IconType" class="@IconClass" />
+            </span>
+        }
+        <div class="flex-1">
+            @if (!string.IsNullOrWhiteSpace(Title))
+            {
+                <h5 class="font-semibold mb-1">@Title</h5>
+            }
+            <div class="@ContentClass">
+                @ChildContent
+            </div>
+        </div>
+        @if (Dismissible)
+        {
+            <button type="button"
+                    class="shrink-0 opacity-70 hover:opacity-100 transition-opacity"
+                    @onclick="HandleDismiss"
+                    aria-label="Close">
+                <Heroicon Name="@HeroiconName.XMark" Type="HeroiconType.Solid" class="h-5 w-5" />
+            </button>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public AlertVariant Variant { get; set; } = AlertVariant.Info;
+    [Parameter] public string? Icon { get; set; }
+    [Parameter] public HeroiconType IconType { get; set; } = HeroiconType.Solid;
+    [Parameter] public bool Dismissible { get; set; }
+    [Parameter] public EventCallback OnDismiss { get; set; }
+    [Parameter] public string? Class { get; set; }
+
+    private bool isDismissed = false;
+
+    private string Css =>
+        string.Join(" ", new[]
+        {
+            "rounded-xl border p-4",
+            VariantCss(),
+            isDismissed ? "hidden" : "",
+            Class ?? ""
+        }.Where(x => !string.IsNullOrWhiteSpace(x)));
+
+    private string IconClass => Variant switch
+    {
+        AlertVariant.Success => "h-5 w-5 text-green-600",
+        AlertVariant.Warning => "h-5 w-5 text-amber-600",
+        AlertVariant.Error => "h-5 w-5 text-red-600",
+        AlertVariant.Info => "h-5 w-5 text-blue-600",
+        _ => "h-5 w-5"
+    };
+
+    private string ContentClass => string.IsNullOrWhiteSpace(Title) ? "text-sm" : "text-sm";
+
+    private string VariantCss() => Variant switch
+    {
+        AlertVariant.Success => "bg-green-50 border-green-200 text-green-900",
+        AlertVariant.Warning => "bg-amber-50 border-amber-200 text-amber-900",
+        AlertVariant.Error => "bg-red-50 border-red-200 text-red-900",
+        AlertVariant.Info => "bg-blue-50 border-blue-200 text-blue-900",
+        _ => "bg-zinc-50 border-zinc-200 text-zinc-900"
+    };
+
+    private async Task HandleDismiss()
+    {
+        isDismissed = true;
+        if (OnDismiss.HasDelegate)
+            await OnDismiss.InvokeAsync();
+    }
+}

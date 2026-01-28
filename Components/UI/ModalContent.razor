@@ -1,0 +1,16 @@
+@* Modal Content Component *@
+<div class="@Css">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+
+    private string Css =>
+        string.Join(" ", new[]
+        {
+            "px-6 py-4",
+            Class ?? ""
+        }.Where(x => !string.IsNullOrWhiteSpace(x)));
+}

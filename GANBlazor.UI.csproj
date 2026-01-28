@@ -4,12 +4,15 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    
+    <!-- Disable default wwwroot content inclusion to avoid duplicates -->
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
 
 
 	  <PackageId>GANBlazor.UI</PackageId>
-	  <Version>0.1.8</Version>
+	  <Version>0.2.0</Version>
 	  <Authors>GAN</Authors>
-	  <Description>Modern, minimal Blazor UI components inspired by shadcn/ui. Requires Tailwind CSS in the consuming app.</Description>
+	  <Description>Modern, minimal Blazor UI component library with 15+ components (Button, Form, Card, Alert, Badge, Modal) inspired by shadcn/ui. Requires Tailwind CSS in the consuming app.</Description>
 	  <PackageTags>blazor;ui;components;tailwind</PackageTags>
 	  <RepositoryUrl>https://github.com/Ezgaminglogan/GANBlazor-UI</RepositoryUrl>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>

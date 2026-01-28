@@ -1,0 +1,30 @@
+@* Modal Header Component *@
+<div class="@Css">
+    <h3 class="text-lg font-semibold text-zinc-900">
+        @if (!string.IsNullOrWhiteSpace(Icon))
+        {
+            <div class="flex items-center gap-2">
+                <Heroicon Name="@Icon" Type="@IconType" class="h-6 w-6 shrink-0" />
+                <span>@ChildContent</span>
+            </div>
+        }
+        else
+        {
+            @ChildContent
+        }
+    </h3>
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Icon { get; set; }
+    [Parameter] public HeroiconType IconType { get; set; } = HeroiconType.Outline;
+    [Parameter] public string? Class { get; set; }
+
+    private string Css =>
+        string.Join(" ", new[]
+        {
+            "px-6 py-4 border-b border-zinc-200",
+            Class ?? ""
+        }.Where(x => !string.IsNullOrWhiteSpace(x)));
+}

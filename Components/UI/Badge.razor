@@ -1,0 +1,55 @@
+@using GANBlazor.UI.Classes.UI
+
+<span class="@Css">
+    @if (!string.IsNullOrWhiteSpace(Icon))
+    {
+        <Heroicon Name="@Icon" Type="@IconType" class="@IconClass" />
+    }
+    @ChildContent
+</span>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public BadgeVariant Variant { get; set; } = BadgeVariant.Default;
+    [Parameter] public BadgeSize Size { get; set; } = BadgeSize.Md;
+    [Parameter] public string? Icon { get; set; }
+    [Parameter] public HeroiconType IconType { get; set; } = HeroiconType.Solid;
+    [Parameter] public string? Class { get; set; }
+
+    private string IconClass => Size switch
+    {
+        BadgeSize.Sm => "h-3 w-3 mr-1",
+        BadgeSize.Md => "h-4 w-4 mr-1",
+        BadgeSize.Lg => "h-5 w-5 mr-1.5",
+        _ => "h-4 w-4 mr-1"
+    };
+
+    private string Css =>
+        string.Join(" ", new[]
+        {
+            "inline-flex items-center justify-center rounded-full font-medium",
+            SizeCss(),
+            VariantCss(),
+            Class ?? ""
+        }.Where(x => !string.IsNullOrWhiteSpace(x)));
+
+    private string SizeCss() => Size switch
+    {
+        BadgeSize.Sm => "px-2 py-0.5 text-xs",
+        BadgeSize.Md => "px-2.5 py-0.5 text-sm",
+        BadgeSize.Lg => "px-3 py-1 text-base",
+        _ => "px-2.5 py-0.5 text-sm"
+    };
+
+    private string VariantCss() => Variant switch
+    {
+        BadgeVariant.Default => "bg-zinc-100 text-zinc-900",
+        BadgeVariant.Primary => "bg-zinc-900 text-white",
+        BadgeVariant.Success => "bg-green-100 text-green-800 border border-green-200",
+        BadgeVariant.Warning => "bg-amber-100 text-amber-800 border border-amber-200",
+        BadgeVariant.Error => "bg-red-100 text-red-800 border border-red-200",
+        BadgeVariant.Info => "bg-blue-100 text-blue-800 border border-blue-200",
+        BadgeVariant.Outline => "bg-white border border-zinc-200 text-zinc-900",
+        _ => "bg-zinc-100 text-zinc-900"
+    };
+}
