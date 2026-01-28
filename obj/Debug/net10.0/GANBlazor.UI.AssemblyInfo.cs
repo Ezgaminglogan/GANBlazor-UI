@@ -16,7 +16,7 @@ using System.Reflection;
     "rd, Alert, Badge, Modal) inspired by shadcn/ui. Requires Tailwind CSS in the con" +
     "suming app."))]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("0.2.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.2.0+614c61d5091a0b21a48b993a5fbb10bc7cdb8136")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.2.0+53e53fb318d96b3e0e5a49eb44c6e2f6ab985159")]
 [assembly: System.Reflection.AssemblyProductAttribute("GANBlazor.UI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GANBlazor.UI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("0.2.0.0")]
