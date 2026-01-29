@@ -1,0 +1,54 @@
+@using static GANBlazor.UI.Classes.UI.ButtonTypes
+
+<div class="@CombinedClass">
+    @foreach (var toast in Toasts)
+    {
+        <Toast Title="@toast.Title"
+               Message="@toast.Message"
+               Variant="@toast.Variant"
+               ShowIcon="@toast.ShowIcon"
+               ShowCloseButton="@toast.ShowCloseButton"
+               OnClose="@(() => RemoveToast(toast.Id))" />
+    }
+</div>
+
+@code {
+    [Parameter] public string Class { get; set; } = "";
+    [Parameter] public ToastPosition Position { get; set; } = ToastPosition.TopRight;
+    [Parameter] public List<ToastItem> Toasts { get; set; } = new();
+    [Parameter] public EventCallback<Guid> OnRemove { get; set; }
+
+    private string CombinedClass
+    {
+        get
+        {
+            var positionClass = Position switch
+            {
+                ToastPosition.TopRight => "fixed top-4 right-4",
+                ToastPosition.TopLeft => "fixed top-4 left-4",
+                ToastPosition.BottomRight => "fixed bottom-4 right-4",
+                ToastPosition.BottomLeft => "fixed bottom-4 left-4",
+                ToastPosition.TopCenter => "fixed top-4 left-1/2 -translate-x-1/2",
+                ToastPosition.BottomCenter => "fixed bottom-4 left-1/2 -translate-x-1/2",
+                _ => "fixed top-4 right-4"
+            };
+            return $"{positionClass} z-50 flex flex-col gap-2 {Class}".Trim();
+        }
+    }
+
+    private async Task RemoveToast(Guid id)
+    {
+        await OnRemove.InvokeAsync(id);
+    }
+
+    public class ToastItem
+    {
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public string? Title { get; set; }
+        public string? Message { get; set; }
+        public ToastVariant Variant { get; set; } = ToastVariant.Info;
+        public bool ShowIcon { get; set; } = true;
+        public bool ShowCloseButton { get; set; } = true;
+        public int Duration { get; set; } = 5000;
+    }
+}

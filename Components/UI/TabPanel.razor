@@ -1,0 +1,18 @@
+<div role="tabpanel"
+     class="@CombinedClass"
+     hidden="@(!IsActive)">
+    @if (IsActive)
+    {
+        @ChildContent
+    }
+</div>
+
+@code {
+    [CascadingParameter] public Tabs? ParentTabs { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string Class { get; set; } = "";
+    [Parameter, EditorRequired] public string Id { get; set; } = "";
+
+    private bool IsActive => ParentTabs?.CurrentActiveTab == Id;
+    private string CombinedClass => $"py-4 {Class}".Trim();
+}

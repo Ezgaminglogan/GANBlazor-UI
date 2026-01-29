@@ -1,0 +1,40 @@
+@using static GANBlazor.UI.Classes.UI.ButtonTypes
+
+<div role="tablist" class="@CombinedClass">
+    <CascadingValue Value="this">
+        @ChildContent
+    </CascadingValue>
+</div>
+
+@code {
+    [CascadingParameter] public Tabs? ParentTabs { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string Class { get; set; } = "";
+
+    private string CombinedClass
+    {
+        get
+        {
+            var variant = ParentTabs?.CurrentVariant ?? TabVariant.Underline;
+            var baseClass = variant switch
+            {
+                TabVariant.Underline => "flex border-b border-zinc-200",
+                TabVariant.Pills => "flex gap-1 p-1 bg-zinc-100 rounded-lg",
+                TabVariant.Boxed => "flex border border-zinc-200 rounded-lg p-1",
+                _ => "flex border-b border-zinc-200"
+            };
+            return $"{baseClass} {Class}".Trim();
+        }
+    }
+
+    internal TabVariant Variant => ParentTabs?.CurrentVariant ?? TabVariant.Underline;
+    internal string? ActiveTab => ParentTabs?.CurrentActiveTab;
+
+    internal async Task SetActiveTab(string tabId)
+    {
+        if (ParentTabs != null)
+        {
+            await ParentTabs.SetActiveTab(tabId);
+        }
+    }
+}

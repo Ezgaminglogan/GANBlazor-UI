@@ -1,0 +1,134 @@
+@using static GANBlazor.UI.Classes.UI.ButtonTypes
+
+<div class="@CombinedClass">
+    @if (!string.IsNullOrEmpty(Src) && !imageError)
+    {
+        <img src="@Src" 
+             alt="@Alt" 
+             class="w-full h-full object-cover"
+             @onerror="HandleImageError" />
+    }
+    else if (!string.IsNullOrEmpty(Initials))
+    {
+        <span class="@InitialsClass">@GetInitials()</span>
+    }
+    else
+    {
+        <svg class="@PlaceholderClass" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </svg>
+    }
+    @if (ShowStatus)
+    {
+        <span class="@StatusClass"></span>
+    }
+</div>
+
+@code {
+    [Parameter] public string Class { get; set; } = "";
+    [Parameter] public string? Src { get; set; }
+    [Parameter] public string Alt { get; set; } = "Avatar";
+    [Parameter] public string? Initials { get; set; }
+    [Parameter] public AvatarSize Size { get; set; } = AvatarSize.Md;
+    [Parameter] public bool Rounded { get; set; } = true;
+    [Parameter] public bool ShowStatus { get; set; } = false;
+    [Parameter] public AvatarStatus Status { get; set; } = AvatarStatus.Online;
+
+    public enum AvatarStatus { Online, Offline, Away, Busy }
+
+    private bool imageError = false;
+
+    private string CombinedClass
+    {
+        get
+        {
+            var sizeClass = Size switch
+            {
+                AvatarSize.Xs => "h-6 w-6",
+                AvatarSize.Sm => "h-8 w-8",
+                AvatarSize.Md => "h-10 w-10",
+                AvatarSize.Lg => "h-12 w-12",
+                AvatarSize.Xl => "h-16 w-16",
+                _ => "h-10 w-10"
+            };
+            var roundedClass = Rounded ? "rounded-full" : "rounded-lg";
+            return $"relative inline-flex items-center justify-center overflow-hidden bg-zinc-100 {sizeClass} {roundedClass} {Class}".Trim();
+        }
+    }
+
+    private string InitialsClass
+    {
+        get
+        {
+            var textSize = Size switch
+            {
+                AvatarSize.Xs => "text-xs",
+                AvatarSize.Sm => "text-xs",
+                AvatarSize.Md => "text-sm",
+                AvatarSize.Lg => "text-base",
+                AvatarSize.Xl => "text-lg",
+                _ => "text-sm"
+            };
+            return $"font-medium text-zinc-600 {textSize}";
+        }
+    }
+
+    private string PlaceholderClass
+    {
+        get
+        {
+            var iconSize = Size switch
+            {
+                AvatarSize.Xs => "h-4 w-4",
+                AvatarSize.Sm => "h-5 w-5",
+                AvatarSize.Md => "h-6 w-6",
+                AvatarSize.Lg => "h-8 w-8",
+                AvatarSize.Xl => "h-10 w-10",
+                _ => "h-6 w-6"
+            };
+            return $"text-zinc-400 {iconSize}";
+        }
+    }
+
+    private string StatusClass
+    {
+        get
+        {
+            var statusSize = Size switch
+            {
+                AvatarSize.Xs => "h-1.5 w-1.5",
+                AvatarSize.Sm => "h-2 w-2",
+                AvatarSize.Md => "h-2.5 w-2.5",
+                AvatarSize.Lg => "h-3 w-3",
+                AvatarSize.Xl => "h-3.5 w-3.5",
+                _ => "h-2.5 w-2.5"
+            };
+            var statusColor = Status switch
+            {
+                AvatarStatus.Online => "bg-emerald-500",
+                AvatarStatus.Offline => "bg-zinc-400",
+                AvatarStatus.Away => "bg-amber-500",
+                AvatarStatus.Busy => "bg-red-500",
+                _ => "bg-emerald-500"
+            };
+            var roundedClass = Rounded ? "rounded-full" : "rounded-sm";
+            return $"absolute bottom-0 right-0 {statusSize} {statusColor} {roundedClass} ring-2 ring-white";
+        }
+    }
+
+    private string GetInitials()
+    {
+        if (string.IsNullOrEmpty(Initials)) return "";
+        var parts = Initials.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length >= 2)
+        {
+            return $"{parts[0][0]}{parts[1][0]}".ToUpper();
+        }
+        return Initials.Length >= 2 ? Initials.Substring(0, 2).ToUpper() : Initials.ToUpper();
+    }
+
+    private void HandleImageError()
+    {
+        imageError = true;
+    }
+}

@@ -1,0 +1,24 @@
+@using static GANBlazor.UI.Classes.UI.ButtonTypes
+
+<div class="@CombinedClass">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string Class { get; set; } = "";
+    [Parameter] public string ActiveTab { get; set; } = "";
+    [Parameter] public EventCallback<string> ActiveTabChanged { get; set; }
+    [Parameter] public TabVariant Variant { get; set; } = TabVariant.Underline;
+
+    private string CombinedClass => $"w-full {Class}".Trim();
+
+    internal string CurrentActiveTab => ActiveTab;
+    internal TabVariant CurrentVariant => Variant;
+
+    internal async Task SetActiveTab(string tabId)
+    {
+        ActiveTab = tabId;
+        await ActiveTabChanged.InvokeAsync(tabId);
+    }
+}

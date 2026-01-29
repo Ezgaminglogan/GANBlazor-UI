@@ -7,6 +7,82 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.3.0] - 2026-01-28
+
+### ✨ Added - New Interactive Components
+
+**New Components:**
+
+- **Switch Component:**
+  - Toggle switch for boolean values
+  - Two-way binding support (`@bind-Value`)
+  - Disabled state
+  - Smooth transition animations
+  - Full accessibility with `role="switch"` and `aria-checked`
+
+- **Spinner Component:**
+  - Loading indicator with SVG animation
+  - 4 size variants (Sm, Md, Lg, Xl)
+  - Optional text label
+  - Customizable via Class parameter
+
+- **Tabs Components:**
+  - `Tabs` - Container with state management
+  - `TabList` - Tab button container
+  - `Tab` - Individual tab buttons
+  - `TabPanel` - Tab content panels
+  - 3 variants (Underline, Pills, Boxed)
+  - Keyboard accessibility with proper ARIA roles
+
+- **Toast Components:**
+  - `Toast` - Individual notification message
+  - `ToastContainer` - Position manager for multiple toasts
+  - 4 variants (Success, Warning, Error, Info)
+  - 6 position options
+  - Icon support with Heroicons
+
+- **Tooltip Component:**
+  - Hover tooltips with configurable delay
+  - 4 positions (Top, Bottom, Left, Right)
+  - Auto-positioning with arrows
+  - Keyboard accessible (focus/blur events)
+
+- **Avatar Component:**
+  - User profile image display
+  - Initials fallback (auto-generated from name)
+  - Placeholder icon fallback
+  - 5 size variants (Xs, Sm, Md, Lg, Xl)
+  - Status indicators (Online, Offline, Away, Busy)
+  - Rounded or square shape option
+  - Image error handling
+
+### 🔧 Enhanced
+
+- **FormInput:** Added left and right icon support with Heroicons
+- **Modal:** Added close button (top-right X icon)
+- **Modal:** Added Escape key to close functionality
+
+### 🗑️ Removed
+
+- Cleaned up unused temporary files
+
+### 📝 Documentation
+
+- Added documentation for all new components
+- Updated Table of Contents in COMPONENTS.md
+
+---
+
+## [0.2.1] - 2026-01-28
+
+### 🐛 Fixed
+
+- Fixed component packaging issue where .razor files were not included in NuGet package
+- Removed `EnableDefaultContentItems` setting that was preventing components from being packaged
+- Added proper static usage imports to all component files
+
+---
+
 ## [0.2.0] - 2026-01-28
 
 ### ✨ Added - Major Component Library Expansion

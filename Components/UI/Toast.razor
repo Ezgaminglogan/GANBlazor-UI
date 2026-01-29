@@ -1,0 +1,88 @@
+@using static GANBlazor.UI.Classes.UI.ButtonTypes
+@using Blazor.Heroicons.Outline
+
+<div class="@CombinedClass" role="alert">
+    <div class="flex items-start gap-3">
+        @if (ShowIcon)
+        {
+            <span class="@IconClass">
+                @switch (Variant)
+                {
+                    case ToastVariant.Success:
+                        <CheckCircleIcon class="h-5 w-5" />
+                        break;
+                    case ToastVariant.Warning:
+                        <ExclamationTriangleIcon class="h-5 w-5" />
+                        break;
+                    case ToastVariant.Error:
+                        <XCircleIcon class="h-5 w-5" />
+                        break;
+                    case ToastVariant.Info:
+                        <InformationCircleIcon class="h-5 w-5" />
+                        break;
+                }
+            </span>
+        }
+        <div class="flex-1 min-w-0">
+            @if (!string.IsNullOrEmpty(Title))
+            {
+                <p class="text-sm font-medium text-zinc-900">@Title</p>
+            }
+            @if (!string.IsNullOrEmpty(Message))
+            {
+                <p class="text-sm text-zinc-600 @(string.IsNullOrEmpty(Title) ? "" : "mt-1")">@Message</p>
+            }
+            @ChildContent
+        </div>
+        @if (ShowCloseButton)
+        {
+            <button type="button" 
+                    class="flex-shrink-0 text-zinc-400 hover:text-zinc-600 transition-colors"
+                    @onclick="HandleClose">
+                <XMarkIcon class="h-5 w-5" />
+            </button>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Class { get; set; } = "";
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public string? Message { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public ToastVariant Variant { get; set; } = ToastVariant.Info;
+    [Parameter] public bool ShowIcon { get; set; } = true;
+    [Parameter] public bool ShowCloseButton { get; set; } = true;
+    [Parameter] public EventCallback OnClose { get; set; }
+
+    private string CombinedClass
+    {
+        get
+        {
+            var baseClass = "p-4 rounded-lg shadow-lg border bg-white max-w-sm w-full animate-in slide-in-from-right duration-300";
+            var borderClass = Variant switch
+            {
+                ToastVariant.Success => "border-emerald-200",
+                ToastVariant.Warning => "border-amber-200",
+                ToastVariant.Error => "border-red-200",
+                ToastVariant.Info => "border-blue-200",
+                _ => "border-zinc-200"
+            };
+            return $"{baseClass} {borderClass} {Class}".Trim();
+        }
+    }
+
+    private string IconClass => Variant switch
+    {
+        ToastVariant.Success => "text-emerald-500",
+        ToastVariant.Warning => "text-amber-500",
+        ToastVariant.Error => "text-red-500",
+        ToastVariant.Info => "text-blue-500",
+        _ => "text-zinc-500"
+    };
+
+    private async Task HandleClose()
+    {
+        await OnClose.InvokeAsync();
+    }
+}

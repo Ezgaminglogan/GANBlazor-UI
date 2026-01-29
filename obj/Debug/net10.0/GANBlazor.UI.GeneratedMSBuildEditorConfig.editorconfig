@@ -26,6 +26,10 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxBbGVydC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/Avatar.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxBdmF0YXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/Badge.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxCYWRnZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -80,6 +84,42 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/ModalHeader.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxNb2RhbEhlYWRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/Spinner.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxTcGlubmVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/Switch.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxTd2l0Y2gucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/Tab.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxUYWIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/TabList.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxUYWJMaXN0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/TabPanel.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxUYWJQYW5lbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/Tabs.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxUYWJzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/Toast.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxUb2FzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/ToastContainer.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxUb2FzdENvbnRhaW5lci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/Components/UI/Tooltip.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xVSVxUb29sdGlwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Logan/Desktop/Website/ASP/Meetups/GANBlazor.UI/_Imports.razor]

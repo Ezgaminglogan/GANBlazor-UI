@@ -1,9 +1,26 @@
 ﻿@using Microsoft.AspNetCore.Components.Forms
 @using System.Linq.Expressions
+@using Blazor.Heroicons
 
-<InputText @bind-Value="Value"
-           class="@Css"
-           @attributes="AdditionalAttributes" />
+<div class="relative">
+    @if (!string.IsNullOrWhiteSpace(LeftIcon))
+    {
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none">
+            <Heroicon Name="@LeftIcon" Type="@LeftIconType" class="h-4 w-4" />
+        </span>
+    }
+
+    <InputText @bind-Value="Value"
+               class="@Css"
+               @attributes="AdditionalAttributes" />
+
+    @if (!string.IsNullOrWhiteSpace(RightIcon))
+    {
+        <span class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none">
+            <Heroicon Name="@RightIcon" Type="@RightIconType" class="h-4 w-4" />
+        </span>
+    }
+</div>
 
 @code {
     [Parameter] public string? Value { get; set; }
@@ -12,6 +29,10 @@
 
     [CascadingParameter] private EditContext? CascadedEditContext { get; set; }
 
+    [Parameter] public string? LeftIcon { get; set; }
+    [Parameter] public HeroiconType LeftIconType { get; set; } = HeroiconType.Outline;
+    [Parameter] public string? RightIcon { get; set; }
+    [Parameter] public HeroiconType RightIconType { get; set; } = HeroiconType.Outline;
     [Parameter] public string? Class { get; set; }
 
     [Parameter(CaptureUnmatchedValues = true)]
@@ -22,6 +43,9 @@
         ValueExpression is not null &&
         CascadedEditContext.GetValidationMessages(FieldIdentifier.Create(ValueExpression)).Any();
 
+    private bool HasLeftIcon => !string.IsNullOrWhiteSpace(LeftIcon);
+    private bool HasRightIcon => !string.IsNullOrWhiteSpace(RightIcon);
+
     private string Css =>
         string.Join(" ", new[]
         {
@@ -31,6 +55,8 @@
             "transition focus:outline-none focus:ring-2 focus:ring-zinc-300 focus:ring-offset-2 focus:ring-offset-white",
             IsInvalid ? "border-red-300 focus:ring-red-200" : "border-zinc-200",
             "disabled:cursor-not-allowed disabled:opacity-50",
+            HasLeftIcon ? "pl-10" : "",
+            HasRightIcon ? "pr-10" : "",
             Class ?? ""
         }.Where(x => !string.IsNullOrWhiteSpace(x)));
 }

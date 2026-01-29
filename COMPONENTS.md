@@ -24,6 +24,18 @@ Complete API reference for all GANBlazor.UI components.
   - [ModalHeader](#modalheader)
   - [ModalContent](#modalcontent)
   - [ModalFooter](#modalfooter)
+- [Switch](#switch)
+- [Spinner](#spinner)
+- [Tabs Components](#tabs-components)
+  - [Tabs](#tabs)
+  - [TabList](#tablist)
+  - [Tab](#tab)
+  - [TabPanel](#tabpanel)
+- [Toast Components](#toast-components)
+  - [Toast](#toast)
+  - [ToastContainer](#toastcontainer)
+- [Tooltip](#tooltip)
+- [Avatar](#avatar)
 
 ---
 
@@ -778,6 +790,400 @@ Footer section of a modal, typically for action buttons.
         </Button>
     </div>
 </ModalFooter>
+```
+
+---
+
+## Switch
+
+A toggle switch component for boolean values.
+
+### Import
+
+```razor
+@using GANBlazor.UI.Components.UI
+```
+
+### Basic Usage
+
+```razor
+<Switch @bind-Value="isEnabled" />
+```
+
+### Parameters
+
+| Parameter      | Type                  | Default | Description                 |
+| -------------- | --------------------- | ------- | --------------------------- |
+| `Value`        | `bool`                | `false` | Current toggle state        |
+| `ValueChanged` | `EventCallback<bool>` | -       | Callback when value changes |
+| `Disabled`     | `bool`                | `false` | Whether switch is disabled  |
+| `Class`        | `string?`             | `null`  | Additional CSS classes      |
+
+### Examples
+
+```razor
+<Switch @bind-Value="darkMode" />
+<span>@(darkMode ? "Dark Mode" : "Light Mode")</span>
+
+<Switch @bind-Value="notifications" Disabled="true" />
+<span>Notifications (disabled)</span>
+
+@code {
+    bool darkMode = false;
+    bool notifications = true;
+}
+```
+
+---
+
+## Spinner
+
+A loading spinner indicator with size variants.
+
+### Import
+
+```razor
+@using GANBlazor.UI.Components.UI
+```
+
+### Basic Usage
+
+```razor
+<Spinner />
+```
+
+### Parameters
+
+| Parameter | Type          | Default          | Description                   |
+| --------- | ------------- | ---------------- | ----------------------------- |
+| `Size`    | `SpinnerSize` | `SpinnerSize.Md` | Size variant                  |
+| `Label`   | `string?`     | `null`           | Optional text next to spinner |
+| `Class`   | `string?`     | `null`           | Additional CSS classes        |
+
+### Size Variants
+
+```csharp
+public enum SpinnerSize { Sm, Md, Lg, Xl }
+```
+
+### Examples
+
+```razor
+<Spinner Size="SpinnerSize.Sm" />
+<Spinner Size="SpinnerSize.Md" />
+<Spinner Size="SpinnerSize.Lg" />
+<Spinner Size="SpinnerSize.Xl" Label="Loading..." />
+```
+
+---
+
+## Tabs Components
+
+### Tabs
+
+Container component for tabbed navigation.
+
+#### Import
+
+```razor
+@using GANBlazor.UI.Components.UI
+```
+
+#### Basic Usage
+
+```razor
+<Tabs @bind-ActiveTab="activeTab">
+    <TabList>
+        <Tab Id="tab1">Tab 1</Tab>
+        <Tab Id="tab2">Tab 2</Tab>
+    </TabList>
+    <TabPanel Id="tab1">Content 1</TabPanel>
+    <TabPanel Id="tab2">Content 2</TabPanel>
+</Tabs>
+
+@code {
+    string activeTab = "tab1";
+}
+```
+
+#### Parameters
+
+| Parameter          | Type                    | Default                | Description            |
+| ------------------ | ----------------------- | ---------------------- | ---------------------- |
+| `ActiveTab`        | `string`                | `""`                   | ID of active tab       |
+| `ActiveTabChanged` | `EventCallback<string>` | -                      | Tab change callback    |
+| `Variant`          | `TabVariant`            | `TabVariant.Underline` | Visual style           |
+| `Class`            | `string?`               | `null`                 | Additional CSS classes |
+
+#### Variants
+
+```csharp
+public enum TabVariant { Underline, Pills, Boxed }
+```
+
+---
+
+### TabList
+
+Container for tab buttons.
+
+#### Parameters
+
+| Parameter      | Type              | Default | Description            |
+| -------------- | ----------------- | ------- | ---------------------- |
+| `ChildContent` | `RenderFragment?` | `null`  | Tab buttons            |
+| `Class`        | `string?`         | `null`  | Additional CSS classes |
+
+---
+
+### Tab
+
+Individual tab button.
+
+#### Parameters
+
+| Parameter      | Type              | Default      | Description             |
+| -------------- | ----------------- | ------------ | ----------------------- |
+| `Id`           | `string`          | **Required** | Unique tab identifier   |
+| `ChildContent` | `RenderFragment?` | `null`       | Tab label content       |
+| `Disabled`     | `bool`            | `false`      | Whether tab is disabled |
+| `Class`        | `string?`         | `null`       | Additional CSS classes  |
+
+---
+
+### TabPanel
+
+Content panel for a tab.
+
+#### Parameters
+
+| Parameter      | Type              | Default      | Description            |
+| -------------- | ----------------- | ------------ | ---------------------- |
+| `Id`           | `string`          | **Required** | Matches Tab Id         |
+| `ChildContent` | `RenderFragment?` | `null`       | Panel content          |
+| `Class`        | `string?`         | `null`       | Additional CSS classes |
+
+#### Complete Tab Example
+
+```razor
+<Tabs @bind-ActiveTab="activeTab" Variant="TabVariant.Pills">
+    <TabList>
+        <Tab Id="profile">Profile</Tab>
+        <Tab Id="settings">Settings</Tab>
+        <Tab Id="notifications" Disabled="true">Notifications</Tab>
+    </TabList>
+    <TabPanel Id="profile">
+        <p>Your profile information here.</p>
+    </TabPanel>
+    <TabPanel Id="settings">
+        <p>Application settings here.</p>
+    </TabPanel>
+    <TabPanel Id="notifications">
+        <p>Notification preferences here.</p>
+    </TabPanel>
+</Tabs>
+
+@code {
+    string activeTab = "profile";
+}
+```
+
+---
+
+## Toast Components
+
+### Toast
+
+Individual toast notification message.
+
+#### Import
+
+```razor
+@using GANBlazor.UI.Components.UI
+```
+
+#### Parameters
+
+| Parameter         | Type            | Default             | Description            |
+| ----------------- | --------------- | ------------------- | ---------------------- |
+| `Title`           | `string?`       | `null`              | Toast title            |
+| `Message`         | `string?`       | `null`              | Toast message          |
+| `Variant`         | `ToastVariant`  | `ToastVariant.Info` | Visual style variant   |
+| `ShowIcon`        | `bool`          | `true`              | Show variant icon      |
+| `ShowCloseButton` | `bool`          | `true`              | Show close button      |
+| `OnClose`         | `EventCallback` | -                   | Close callback         |
+| `Class`           | `string?`       | `null`              | Additional CSS classes |
+
+#### Variants
+
+```csharp
+public enum ToastVariant { Success, Warning, Error, Info }
+```
+
+---
+
+### ToastContainer
+
+Container for positioning multiple toasts.
+
+#### Parameters
+
+| Parameter  | Type                  | Default                  | Description            |
+| ---------- | --------------------- | ------------------------ | ---------------------- |
+| `Position` | `ToastPosition`       | `ToastPosition.TopRight` | Screen position        |
+| `Toasts`   | `List<ToastItem>`     | `new()`                  | List of toast items    |
+| `OnRemove` | `EventCallback<Guid>` | -                        | Remove toast callback  |
+| `Class`    | `string?`             | `null`                   | Additional CSS classes |
+
+#### Positions
+
+```csharp
+public enum ToastPosition { TopRight, TopLeft, BottomRight, BottomLeft, TopCenter, BottomCenter }
+```
+
+#### Example
+
+```razor
+<ToastContainer Position="ToastPosition.TopRight"
+                Toasts="@toasts"
+                OnRemove="RemoveToast" />
+
+<Button OnClick="ShowSuccessToast">Show Toast</Button>
+
+@code {
+    List<ToastContainer.ToastItem> toasts = new();
+
+    void ShowSuccessToast()
+    {
+        toasts.Add(new ToastContainer.ToastItem
+        {
+            Title = "Success!",
+            Message = "Your changes have been saved.",
+            Variant = ToastVariant.Success
+        });
+    }
+
+    void RemoveToast(Guid id)
+    {
+        toasts.RemoveAll(t => t.Id == id);
+    }
+}
+```
+
+---
+
+## Tooltip
+
+Hover tooltip for additional information.
+
+### Import
+
+```razor
+@using GANBlazor.UI.Components.UI
+```
+
+### Basic Usage
+
+```razor
+<Tooltip Text="This is a tooltip">
+    <span>Hover me</span>
+</Tooltip>
+```
+
+### Parameters
+
+| Parameter      | Type              | Default               | Description                  |
+| -------------- | ----------------- | --------------------- | ---------------------------- |
+| `Text`         | `string`          | **Required**          | Tooltip text                 |
+| `Position`     | `TooltipPosition` | `TooltipPosition.Top` | Tooltip position             |
+| `Delay`        | `int`             | `200`                 | Show delay in milliseconds   |
+| `ChildContent` | `RenderFragment?` | `null`                | Element to attach tooltip to |
+| `Class`        | `string?`         | `null`                | Additional CSS classes       |
+
+### Positions
+
+```csharp
+public enum TooltipPosition { Top, Bottom, Left, Right }
+```
+
+### Examples
+
+```razor
+<Tooltip Text="Save your work" Position="Tooltip.TooltipPosition.Top">
+    <Button Icon="check">Save</Button>
+</Tooltip>
+
+<Tooltip Text="More information" Position="Tooltip.TooltipPosition.Right" Delay="500">
+    <span class="text-blue-500 cursor-help">ℹ️</span>
+</Tooltip>
+```
+
+---
+
+## Avatar
+
+User avatar component with image, initials, and status indicator support.
+
+### Import
+
+```razor
+@using GANBlazor.UI.Components.UI
+```
+
+### Basic Usage
+
+```razor
+<Avatar Src="https://example.com/photo.jpg" />
+<Avatar Initials="John Doe" />
+<Avatar /> <!-- Shows placeholder icon -->
+```
+
+### Parameters
+
+| Parameter    | Type           | Default               | Description                       |
+| ------------ | -------------- | --------------------- | --------------------------------- |
+| `Src`        | `string?`      | `null`                | Image URL                         |
+| `Alt`        | `string`       | `"Avatar"`            | Image alt text                    |
+| `Initials`   | `string?`      | `null`                | Name for initials (fallback)      |
+| `Size`       | `AvatarSize`   | `AvatarSize.Md`       | Size variant                      |
+| `Rounded`    | `bool`         | `true`                | Circular (true) or rounded square |
+| `ShowStatus` | `bool`         | `false`               | Show status indicator             |
+| `Status`     | `AvatarStatus` | `AvatarStatus.Online` | Status type                       |
+| `Class`      | `string?`      | `null`                | Additional CSS classes            |
+
+### Size Variants
+
+```csharp
+public enum AvatarSize { Xs, Sm, Md, Lg, Xl }
+```
+
+### Status Types
+
+```csharp
+public enum AvatarStatus { Online, Offline, Away, Busy }
+```
+
+### Examples
+
+```razor
+<!-- With image -->
+<Avatar Src="/images/user.jpg" Size="AvatarSize.Lg" />
+
+<!-- With initials -->
+<Avatar Initials="John Doe" Size="AvatarSize.Md" />
+
+<!-- With status -->
+<Avatar Src="/images/user.jpg" ShowStatus="true" Status="Avatar.AvatarStatus.Online" />
+
+<!-- Different sizes -->
+<Avatar Initials="JD" Size="AvatarSize.Xs" />
+<Avatar Initials="JD" Size="AvatarSize.Sm" />
+<Avatar Initials="JD" Size="AvatarSize.Md" />
+<Avatar Initials="JD" Size="AvatarSize.Lg" />
+<Avatar Initials="JD" Size="AvatarSize.Xl" />
+
+<!-- Square avatar -->
+<Avatar Initials="AB" Rounded="false" />
 ```
 
 ---

@@ -1,0 +1,52 @@
+@using static GANBlazor.UI.Classes.UI.ButtonTypes
+
+<button type="button"
+        role="tab"
+        aria-selected="@IsActive.ToString().ToLower()"
+        class="@CombinedClass"
+        @onclick="HandleClick"
+        disabled="@Disabled">
+    @ChildContent
+</button>
+
+@code {
+    [CascadingParameter] public TabList? ParentTabList { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string Class { get; set; } = "";
+    [Parameter, EditorRequired] public string Id { get; set; } = "";
+    [Parameter] public bool Disabled { get; set; } = false;
+
+    private bool IsActive => ParentTabList?.ActiveTab == Id;
+
+    private string CombinedClass
+    {
+        get
+        {
+            var variant = ParentTabList?.Variant ?? TabVariant.Underline;
+            var baseClass = variant switch
+            {
+                TabVariant.Underline => IsActive
+                    ? "px-4 py-2 text-sm font-medium text-zinc-900 border-b-2 border-zinc-900 -mb-px transition-colors"
+                    : "px-4 py-2 text-sm font-medium text-zinc-500 hover:text-zinc-700 border-b-2 border-transparent -mb-px transition-colors",
+                TabVariant.Pills => IsActive
+                    ? "px-4 py-2 text-sm font-medium text-zinc-900 bg-white rounded-md shadow-sm transition-all"
+                    : "px-4 py-2 text-sm font-medium text-zinc-500 hover:text-zinc-700 rounded-md transition-all",
+                TabVariant.Boxed => IsActive
+                    ? "px-4 py-2 text-sm font-medium text-zinc-900 bg-white rounded-md shadow-sm transition-all"
+                    : "px-4 py-2 text-sm font-medium text-zinc-500 hover:text-zinc-700 rounded-md transition-all",
+                _ => "px-4 py-2 text-sm font-medium text-zinc-500"
+            };
+            
+            var disabledClass = Disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer";
+            return $"{baseClass} {disabledClass} {Class}".Trim();
+        }
+    }
+
+    private async Task HandleClick()
+    {
+        if (!Disabled && ParentTabList != null)
+        {
+            await ParentTabList.SetActiveTab(Id);
+        }
+    }
+}

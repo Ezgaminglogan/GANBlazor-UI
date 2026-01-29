@@ -1,5 +1,8 @@
 @using Blazor.Heroicons
+@using Microsoft.JSInterop
 @using static GANBlazor.UI.Classes.UI.ButtonTypes
+@implements IDisposable
+@inject IJSRuntime JS
 
 @if (IsOpen)
 {
@@ -9,8 +12,20 @@
 
     <!-- Modal -->
     <div class="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
-        <div class="@ModalCss pointer-events-auto"
-             @onclick:stopPropagation="true">
+        <div class="@ModalCss pointer-events-auto relative"
+             @onclick:stopPropagation="true"
+             @ref="modalRef">
+            
+            @if (ShowCloseButton)
+            {
+                <button type="button"
+                        class="absolute top-3 right-3 p-1 rounded-lg text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 transition-colors"
+                        @onclick="CloseModal"
+                        aria-label="Close">
+                    <Heroicon Name="@HeroiconName.XMark" Type="HeroiconType.Outline" class="h-5 w-5" />
+                </button>
+            }
+            
             @ChildContent
         </div>
     </div>
@@ -23,7 +38,37 @@
     [Parameter] public EventCallback OnClose { get; set; }
     [Parameter] public ModalSize Size { get; set; } = ModalSize.Md;
     [Parameter] public bool CloseOnBackdropClick { get; set; } = true;
+    [Parameter] public bool CloseOnEscape { get; set; } = true;
+    [Parameter] public bool ShowCloseButton { get; set; } = true;
     [Parameter] public string? Class { get; set; }
+
+    private ElementReference modalRef;
+    private DotNetObjectReference<Modal>? objRef;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && CloseOnEscape)
+        {
+            objRef = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("eval", @"
+                window.ganblazorModalKeyHandler = (objRef) => {
+                    document.addEventListener('keydown', (e) => {
+                        if (e.key === 'Escape') {
+                            objRef.invokeMethodAsync('HandleEscapeKey');
+                        }
+                    });
+                };
+                window.ganblazorModalKeyHandler(" + "arguments[0]" + @");
+            ", objRef);
+        }
+    }
+
+    [JSInvokable]
+    public async Task HandleEscapeKey()
+    {
+        if (IsOpen && CloseOnEscape)
+            await CloseModal();
+    }
 
     private string ModalCss =>
         string.Join(" ", new[]
@@ -55,5 +100,10 @@
         await IsOpenChanged.InvokeAsync(false);
         if (OnClose.HasDelegate)
             await OnClose.InvokeAsync();
+    }
+
+    public void Dispose()
+    {
+        objRef?.Dispose();
     }
 }

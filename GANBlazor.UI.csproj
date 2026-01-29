@@ -7,9 +7,9 @@
 
 
 	  <PackageId>GANBlazor.UI</PackageId>
-	  <Version>0.2.1</Version>
+	  <Version>0.3.0</Version>
 	  <Authors>GAN</Authors>
-	  <Description>Modern, minimal Blazor UI component library with 15+ components (Button, Form, Card, Alert, Badge, Modal) inspired by shadcn/ui. Requires Tailwind CSS in the consuming app.</Description>
+	  <Description>Modern, minimal Blazor UI component library with 20+ components (Button, Form, Card, Alert, Badge, Modal, Switch, Spinner, Tabs, Toast, Tooltip, Avatar) inspired by shadcn/ui. Requires Tailwind CSS in the consuming app.</Description>
 	  <PackageTags>blazor;ui;components;tailwind</PackageTags>
 	  <RepositoryUrl>https://github.com/Ezgaminglogan/GANBlazor-UI</RepositoryUrl>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>

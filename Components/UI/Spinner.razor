@@ -1,0 +1,46 @@
+@using GANBlazor.UI.Classes.UI
+@using static GANBlazor.UI.Classes.UI.ButtonTypes
+
+@* Spinner/Loader Component - Clean & Minimal *@
+
+<div class="@ContainerCss" role="status" aria-label="@Label">
+    <svg class="@SpinnerCss animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <span class="@LabelCss">@Label</span>
+    }
+</div>
+
+@code {
+    [Parameter] public SpinnerSize Size { get; set; } = SpinnerSize.Md;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? Class { get; set; }
+
+    private string ContainerCss =>
+        string.Join(" ", new[]
+        {
+            "inline-flex items-center gap-2",
+            Class ?? ""
+        }.Where(x => !string.IsNullOrWhiteSpace(x)));
+
+    private string SpinnerCss => Size switch
+    {
+        SpinnerSize.Sm => "h-4 w-4 text-zinc-600",
+        SpinnerSize.Md => "h-6 w-6 text-zinc-600",
+        SpinnerSize.Lg => "h-8 w-8 text-zinc-600",
+        SpinnerSize.Xl => "h-12 w-12 text-zinc-600",
+        _ => "h-6 w-6 text-zinc-600"
+    };
+
+    private string LabelCss => Size switch
+    {
+        SpinnerSize.Sm => "text-xs text-zinc-600",
+        SpinnerSize.Md => "text-sm text-zinc-600",
+        SpinnerSize.Lg => "text-base text-zinc-600",
+        SpinnerSize.Xl => "text-lg text-zinc-600",
+        _ => "text-sm text-zinc-600"
+    };
+}

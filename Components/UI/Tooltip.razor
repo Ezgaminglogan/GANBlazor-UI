@@ -1,0 +1,88 @@
+<div class="@CombinedClass"
+     @onmouseenter="ShowTooltip"
+     @onmouseleave="HideTooltip"
+     @onfocus="ShowTooltip"
+     @onblur="HideTooltip">
+    @ChildContent
+    
+    @if (isVisible)
+    {
+        <div class="@TooltipClass" role="tooltip">
+            @Text
+            <div class="@ArrowClass"></div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string Class { get; set; } = "";
+    [Parameter, EditorRequired] public string Text { get; set; } = "";
+    [Parameter] public TooltipPosition Position { get; set; } = TooltipPosition.Top;
+    [Parameter] public int Delay { get; set; } = 200;
+
+    private bool isVisible = false;
+    private System.Threading.Timer? showTimer;
+
+    public enum TooltipPosition { Top, Bottom, Left, Right }
+
+    private string CombinedClass => $"relative inline-block {Class}".Trim();
+
+    private string TooltipClass
+    {
+        get
+        {
+            var baseClass = "absolute z-50 px-2 py-1 text-xs font-medium text-white bg-zinc-900 rounded shadow-lg whitespace-nowrap";
+            var positionClass = Position switch
+            {
+                TooltipPosition.Top => "bottom-full left-1/2 -translate-x-1/2 mb-2",
+                TooltipPosition.Bottom => "top-full left-1/2 -translate-x-1/2 mt-2",
+                TooltipPosition.Left => "right-full top-1/2 -translate-y-1/2 mr-2",
+                TooltipPosition.Right => "left-full top-1/2 -translate-y-1/2 ml-2",
+                _ => "bottom-full left-1/2 -translate-x-1/2 mb-2"
+            };
+            return $"{baseClass} {positionClass}";
+        }
+    }
+
+    private string ArrowClass
+    {
+        get
+        {
+            var baseClass = "absolute w-2 h-2 bg-zinc-900 rotate-45";
+            var positionClass = Position switch
+            {
+                TooltipPosition.Top => "top-full left-1/2 -translate-x-1/2 -mt-1",
+                TooltipPosition.Bottom => "bottom-full left-1/2 -translate-x-1/2 -mb-1",
+                TooltipPosition.Left => "left-full top-1/2 -translate-y-1/2 -ml-1",
+                TooltipPosition.Right => "right-full top-1/2 -translate-y-1/2 -mr-1",
+                _ => "top-full left-1/2 -translate-x-1/2 -mt-1"
+            };
+            return $"{baseClass} {positionClass}";
+        }
+    }
+
+    private void ShowTooltip()
+    {
+        showTimer?.Dispose();
+        showTimer = new System.Threading.Timer(_ =>
+        {
+            InvokeAsync(() =>
+            {
+                isVisible = true;
+                StateHasChanged();
+            });
+        }, null, Delay, System.Threading.Timeout.Infinite);
+    }
+
+    private void HideTooltip()
+    {
+        showTimer?.Dispose();
+        isVisible = false;
+    }
+
+    public void Dispose()
+    {
+        showTimer?.Dispose();
+    }
+}

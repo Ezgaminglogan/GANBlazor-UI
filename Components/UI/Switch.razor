@@ -1,0 +1,43 @@
+@* Switch/Toggle Component - Clean & Minimal *@
+
+<button type="button"
+        role="switch"
+        aria-checked="@Value.ToString().ToLower()"
+        class="@Css"
+        disabled="@Disabled"
+        @onclick="Toggle">
+    <span class="@KnobCss" aria-hidden="true"></span>
+</button>
+
+@code {
+    [Parameter] public bool Value { get; set; }
+    [Parameter] public EventCallback<bool> ValueChanged { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Class { get; set; }
+
+    private async Task Toggle()
+    {
+        if (Disabled) return;
+        Value = !Value;
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    private string Css =>
+        string.Join(" ", new[]
+        {
+            "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent",
+            "transition-colors duration-200 ease-in-out",
+            "focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2",
+            Value ? "bg-zinc-900" : "bg-zinc-200",
+            Disabled ? "opacity-50 cursor-not-allowed" : "",
+            Class ?? ""
+        }.Where(x => !string.IsNullOrWhiteSpace(x)));
+
+    private string KnobCss =>
+        string.Join(" ", new[]
+        {
+            "pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-lg ring-0",
+            "transform transition duration-200 ease-in-out",
+            Value ? "translate-x-5" : "translate-x-0"
+        }.Where(x => !string.IsNullOrWhiteSpace(x)));
+}
